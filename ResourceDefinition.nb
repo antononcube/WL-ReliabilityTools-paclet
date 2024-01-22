@@ -32,7 +32,9 @@ Cell[CellGroupData[{
 Cell["", "FileManagerTopSpacer",
  CellGroupingRules->{"SectionGrouping", 99},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->39209729,ExpressionUUID->"e5531eb7-756e-4725-b8ba-9cbff8332e88"],
+ CellID->39209729,ExpressionUUID->"5f07bbbe-117a-4276-b7a3-d9d83d8eb793"],
+
+Cell[CellGroupData[{
 
 Cell[TextData[Cell[BoxData[
  InterpretationBox[
@@ -55,7 +57,7 @@ Cell[TextData[Cell[BoxData[
     NotebookDirectory[], "Documentation"}],
   BoxID -> "FileTreePath",
   BaseStyle->{
-   "Text"}]],ExpressionUUID->"7e97d1a7-73d4-474a-9336-6670f2187df5"]], \
+   "Text"}]],ExpressionUUID->"d603eee3-9598-4c27-bb85-34f7b9c85a30"]], \
 "FileManagerDirectory",
  CellMargins->{{Inherited, Inherited}, {Inherited, Inherited}},
  CellGroupingRules->{"SectionGrouping", 100},
@@ -65,7 +67,208 @@ Cell[TextData[Cell[BoxData[
       TemplateBox[{}, "FileManagerDocumentationIconTemplate"]], Background -> 
      None], Inherited}, {Inherited, Inherited}},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->1867919321,ExpressionUUID->"78065154-bfb7-4183-abab-8a7c9caa36d5"],
+ CellID->1867919321,ExpressionUUID->"a4c0303f-7b90-4754-8cdf-85d144cd87be"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   ActionMenuBox["\<\"English\"\>",{
+    "\"Open/Close Group\"" :> (
+      SelectionMove[ParentCell[EvaluationCell[]], All, Cell]; 
+      FrontEndTokenExecute[EvaluationNotebook[], "OpenCloseGroup"]), 
+     "\"Open Directory\"" :> 
+     DefinitionNotebookClient`FileTreeOpen[ParentCell[EvaluationCell[]]], 
+     "\"Un/Mark as Excluded\"" :> 
+     DefinitionNotebookClient`FileTreeExclusionToggle[
+      ParentCell[EvaluationCell[]]], "\"Copy Path to Clipboard\"" :> 
+     DefinitionNotebookClient`FileTreeCopy[ParentCell[EvaluationCell[]]]},
+    Appearance->None,
+    BaseStyle->{"Text"}],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[1]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{
+   "Text"}]],ExpressionUUID->"a269c3e5-01a7-4a45-a100-cd23794d92a1"]], \
+"FileManagerDirectory",
+ CellMargins->{{23 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 110},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerDirectoryIconTemplate"]], Background -> 
+     None], Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->36966707,ExpressionUUID->"9f7e51d8-bdc6-436e-9078-c343c6fedbe8"],
+
+Cell[TextData[Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   ActionMenuBox["\<\"Guides\"\>",{
+    "\"Open/Close Group\"" :> (
+      SelectionMove[ParentCell[EvaluationCell[]], All, Cell]; 
+      FrontEndTokenExecute[EvaluationNotebook[], "OpenCloseGroup"]), 
+     "\"Open Directory\"" :> 
+     DefinitionNotebookClient`FileTreeOpen[ParentCell[EvaluationCell[]]], 
+     "\"Un/Mark as Excluded\"" :> 
+     DefinitionNotebookClient`FileTreeExclusionToggle[
+      ParentCell[EvaluationCell[]]], "\"Copy Path to Clipboard\"" :> 
+     DefinitionNotebookClient`FileTreeCopy[ParentCell[EvaluationCell[]]]},
+    Appearance->None,
+    BaseStyle->{"Text"}],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[2]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English", "Guides"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{
+   "Text"}]],ExpressionUUID->"4a7daa87-91f5-4d6c-a955-084d23830e5b"]], \
+"FileManagerDirectory",
+ CellMargins->{{46 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 120},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerEmptyDirectoryIconTemplate"]], Background -> 
+     None], Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->676670566,ExpressionUUID->"a26ee618-a48e-4334-948e-35484f2fea3d"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   ActionMenuBox["\<\"ReferencePages\"\>",{
+    "\"Open/Close Group\"" :> (
+      SelectionMove[ParentCell[EvaluationCell[]], All, Cell]; 
+      FrontEndTokenExecute[EvaluationNotebook[], "OpenCloseGroup"]), 
+     "\"Open Directory\"" :> 
+     DefinitionNotebookClient`FileTreeOpen[ParentCell[EvaluationCell[]]], 
+     "\"Un/Mark as Excluded\"" :> 
+     DefinitionNotebookClient`FileTreeExclusionToggle[
+      ParentCell[EvaluationCell[]]], "\"Copy Path to Clipboard\"" :> 
+     DefinitionNotebookClient`FileTreeCopy[ParentCell[EvaluationCell[]]]},
+    Appearance->None,
+    BaseStyle->{"Text"}],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[2]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English", "ReferencePages"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{
+   "Text"}]],ExpressionUUID->"b1cf8a91-ccce-42ce-ab4d-b4c197012e99"]], \
+"FileManagerDirectory",
+ CellMargins->{{46 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 120},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerDirectoryIconTemplate"]], Background -> 
+     None], Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->1876291897,ExpressionUUID->"f41b58d4-b85b-4855-a173-cd79dab00016"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   ActionMenuBox["\<\"Symbols\"\>",{
+    "\"Open/Close Group\"" :> (
+      SelectionMove[ParentCell[EvaluationCell[]], All, Cell]; 
+      FrontEndTokenExecute[EvaluationNotebook[], "OpenCloseGroup"]), 
+     "\"Open Directory\"" :> 
+     DefinitionNotebookClient`FileTreeOpen[ParentCell[EvaluationCell[]]], 
+     "\"Un/Mark as Excluded\"" :> 
+     DefinitionNotebookClient`FileTreeExclusionToggle[
+      ParentCell[EvaluationCell[]]], "\"Copy Path to Clipboard\"" :> 
+     DefinitionNotebookClient`FileTreeCopy[ParentCell[EvaluationCell[]]]},
+    Appearance->None,
+    BaseStyle->{"Text"}],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[3]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English", "ReferencePages", 
+    "Symbols"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{
+   "Text"}]],ExpressionUUID->"c6d25230-08d5-4d68-bb27-c0fc3e041a8c"]], \
+"FileManagerDirectory",
+ CellMargins->{{69 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 130},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerDirectoryIconTemplate"]], Background -> 
+     None], Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->1188040331,ExpressionUUID->"5ebe12dc-feb9-4c6b-a1ad-73a7aa1b8eee"],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   TemplateBox[{"\"CrowAMSAAForecast.nb\"", 
+     FileNameJoin[{
+       NotebookDirectory[], "Documentation", "English", "ReferencePages", 
+       "Symbols", "CrowAMSAAForecast.nb"}]},
+    "FileManagerFileOpenerTemplate"],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[4]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English", "ReferencePages", 
+    "Symbols", "CrowAMSAAForecast.nb"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{"Text"}]], "FileManagerFile",
+ CellMargins->{{92 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 140},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerNBIconTemplate"]], Background -> None], 
+    Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->90893311,ExpressionUUID->"94398478-364c-4ee9-8c07-d5bfd9e3677b"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   ActionMenuBox["\<\"Tutorials\"\>",{
+    "\"Open/Close Group\"" :> (
+      SelectionMove[ParentCell[EvaluationCell[]], All, Cell]; 
+      FrontEndTokenExecute[EvaluationNotebook[], "OpenCloseGroup"]), 
+     "\"Open Directory\"" :> 
+     DefinitionNotebookClient`FileTreeOpen[ParentCell[EvaluationCell[]]], 
+     "\"Un/Mark as Excluded\"" :> 
+     DefinitionNotebookClient`FileTreeExclusionToggle[
+      ParentCell[EvaluationCell[]]], "\"Copy Path to Clipboard\"" :> 
+     DefinitionNotebookClient`FileTreeCopy[ParentCell[EvaluationCell[]]]},
+    Appearance->None,
+    BaseStyle->{"Text"}],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[2]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Documentation", "English", "Tutorials"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{
+   "Text"}]],ExpressionUUID->"e0a40d79-5e84-45bb-8c72-f413c9f9d4c8"]], \
+"FileManagerDirectory",
+ CellMargins->{{46 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 120},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerEmptyDirectoryIconTemplate"]], Background -> 
+     None], Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->783004960,ExpressionUUID->"7eff7b68-0266-4c8a-87bc-7ac06a29a280"]
+}, Open  ]]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -90,7 +293,7 @@ Cell[TextData[Cell[BoxData[
     NotebookDirectory[], "Kernel"}],
   BoxID -> "FileTreePath",
   BaseStyle->{
-   "Text"}]],ExpressionUUID->"abb29757-cda2-4ee2-904f-2090076786f6"]], \
+   "Text"}]],ExpressionUUID->"a3362106-c11d-4fc0-914c-3b607d20442e"]], \
 "FileManagerDirectory",
  CellMargins->{{Inherited, Inherited}, {Inherited, Inherited}},
  CellGroupingRules->{"SectionGrouping", 100},
@@ -100,7 +303,30 @@ Cell[TextData[Cell[BoxData[
       TemplateBox[{}, "FileManagerKernelIconTemplate"]], Background -> None], 
     Inherited}, {Inherited, Inherited}},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->56592554,ExpressionUUID->"e07e98f8-e1ba-4e2d-b9e2-8473e221bd6b"],
+ CellID->56592554,ExpressionUUID->"bbf5c163-7069-4e27-aec9-0e50a4e0b10c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   TemplateBox[{"\"CrowAMSAA.m\"", 
+     FileNameJoin[{
+       NotebookDirectory[], "Kernel", "CrowAMSAA.m"}]},
+    "FileManagerFileOpenerTemplate"],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[1]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "Kernel", "CrowAMSAA.m"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{"Text"}]], "FileManagerFile",
+ CellMargins->{{23 + Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 110},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerWLIconTemplate"]], Background -> None], 
+    Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->184573904,ExpressionUUID->"399e5fe6-4fd0-4181-b1ff-2a1d76ce006f"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -123,8 +349,31 @@ Cell[BoxData[
       TemplateBox[{}, "FileManagerWLIconTemplate"]], Background -> None], 
     Inherited}, {Inherited, Inherited}},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->1963283104,ExpressionUUID->"5a2bbdb6-e716-472f-85b4-453a6a398e16"]
-}, Closed]],
+ CellID->1963283104,ExpressionUUID->"3ed15f12-e59c-40d1-9bd5-bbac1b859e4c"]
+}, Open  ]],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   TemplateBox[{"\"LICENSE\"", 
+     FileNameJoin[{
+       NotebookDirectory[], "LICENSE"}]},
+    "FileManagerFileOpenerTemplate"],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[0]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "LICENSE"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{"Text"}]], "FileManagerFile",
+ CellMargins->{{Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 100},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerUnknownIconTemplate"]], Background -> None],
+     Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->1167218260,ExpressionUUID->"e3c23a9e-b529-440d-a455-5da8d3e089c3"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -147,7 +396,30 @@ Cell[BoxData[
       TemplateBox[{}, "FileManagerPacletInfoIconTemplate"]], Background -> 
      None], Inherited}, {Inherited, Inherited}},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->812892773,ExpressionUUID->"43d4644e-d062-48fe-ac44-3bb0a8abdbb8"],
+ CellID->812892773,ExpressionUUID->"6b15c79b-aa9d-4f57-b4bb-5d84193576d8"],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   TemplateBox[{"\"README.md\"", 
+     FileNameJoin[{
+       NotebookDirectory[], "README.md"}]},
+    "FileManagerFileOpenerTemplate"],
+   Annotation[#, 
+    DefinitionNotebookClient`TemplateCells`PackagePrivate`fileDepth[0]]& ],
+  FileNameJoin[{
+    NotebookDirectory[], "README.md"}],
+  BoxID -> "FileTreePath",
+  BaseStyle->{"Text"}]], "FileManagerFile",
+ CellMargins->{{Inherited, Inherited}, {Inherited, Inherited}},
+ CellGroupingRules->{"SectionGrouping", 100},
+ CellFrameLabels->{{
+    Cell[
+     BoxData[
+      TemplateBox[{}, "FileManagerTXTIconTemplate"]], Background -> None], 
+    Inherited}, {Inherited, Inherited}},
+ CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
+ CellID->174180475,ExpressionUUID->"c379126e-0b78-4cc1-bd3c-b0d2aa3a1cac"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -170,12 +442,12 @@ Cell[BoxData[
       TemplateBox[{}, "FileManagerNBIconTemplate"]], Background -> None], 
     Inherited}, {Inherited, Inherited}},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->2145357244,ExpressionUUID->"0a5cb75c-388f-43cb-826c-e404b8c1a5da"],
+ CellID->2145357244,ExpressionUUID->"a9292b3c-b434-4f9c-ac0d-f4be38dccf5a"],
 
 Cell["", "FileManagerBottomSpacer",
  CellGroupingRules->{"SectionGrouping", 100},
  CellTags->{"FileManagerCell", "FileManager-PacletFiles"},
- CellID->768766778,ExpressionUUID->"e4247060-3fea-4321-ae2a-032e0040edb9"]
+ CellID->768766778,ExpressionUUID->"58746cd7-17b3-45ab-a2d6-7292d94b5a40"]
 }, Open  ]]
 }, Open  ]],
 
@@ -346,7 +618,8 @@ text that users will see when visiting the main landing page of your paclet.",
  CellTags->{"Basic Description", "LongDescription", "TemplateCellGroup"},
  CellID->433339604,ExpressionUUID->"3f0fc4ab-13d5-4bae-8de0-30457d8aadcc"],
 
-Cell["A paragraph that describes your paclet in more detail.", "Text",
+Cell["Reliability-related algorithms and know-how", "Text",
+ CellChangeTimes->{{3.914884034127153*^9, 3.914884072101665*^9}},
  CellTags->"DefaultContent",
  CellID->441612482,ExpressionUUID->"27cc8f79-0315-4ac6-aad7-bc0c2ebb3613"]
 }, Open  ]],
@@ -384,7 +657,11 @@ examples on the webpage for the resource.", "MoreInfoText"], Background ->
  CellTags->{"Details", "TemplateCellGroup"},
  CellID->484110581,ExpressionUUID->"fc7a9beb-77a8-45c9-b6aa-592cc82c8349"],
 
-Cell["Additional information about the paclet.", "Notes",
+Cell["\<\
+The paclet has several types of functions for doing Reliability Analysis \
+(RA): statistical modeling, visualization graphs, data parsers and converters.\
+\>", "Notes",
+ CellChangeTimes->{{3.914884075274707*^9, 3.914884150742021*^9}},
  CellTags->"DefaultContent",
  CellID->889292814,ExpressionUUID->"637b1b6e-0f0a-4396-a447-fee19e92dfc1"]
 }, Open  ]],
@@ -626,7 +903,7 @@ Cell[BoxData[{
    RowBox[{"PlotTheme", "->", "\"\<Detailed\>\""}]}], "]"}]}], "Input",
  CellChangeTimes->{{3.914883426857173*^9, 3.914883433987295*^9}, {
   3.9148834643690577`*^9, 3.9148835162488327`*^9}},
- CellLabel->"In[16]:=",
+ CellLabel->"In[3]:=",
  CellID->549863346,ExpressionUUID->"2ab588b5-1eac-4260-a04d-c50b54d1383e"],
 
 Cell[BoxData[
@@ -826,441 +1103,50 @@ Cell[BoxData[
      Scaled[0.05]}},
   Ticks->{Automatic, Automatic}]], "Output",
  CellChangeTimes->{{3.9148826846412477`*^9, 3.914882690984461*^9}, 
-   3.91488344354253*^9, {3.9148834959138727`*^9, 3.914883516673192*^9}},
- CellLabel->"Out[17]=",
- CellID->878289279,ExpressionUUID->"4484ad39-c436-4510-86d4-6ef4b27e8e56"]
+   3.91488344354253*^9, {3.9148834959138727`*^9, 3.914883516673192*^9}, 
+   3.914884009147537*^9, 3.914884308382957*^9},
+ CellLabel->"Out[4]=",
+ CellID->172835405,ExpressionUUID->"6b8ea5aa-17f6-478b-b34a-3ffc247263ac"]
 }, Open  ]],
+
+Cell["Here the Crow AMSAA method is applied:", "Text",
+ CellChangeTimes->{{3.914884276552022*^9, 3.914884289231563*^9}},
+ CellID->1569709896,ExpressionUUID->"c06b311d-bef8-4f78-8f79-842fdb2ea493"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"CrowAMSAAForecast", "[", "data", "]"}]], "Input",
  CellChangeTimes->{{3.9148835498191433`*^9, 3.9148835625317507`*^9}},
- CellLabel->"In[18]:=",
+ CellLabel->"In[5]:=",
  CellID->1539348468,ExpressionUUID->"f9c7388f-5449-45e3-81b1-4f909b1ec76e"],
 
 Cell[BoxData[
- TemplateBox[{
-  "Part", "partd", 
-   "\"Part specification \\!\\(\\*RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\
-\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"All\\\", \\\",\\\", \\\"2\\\"}], \\\"\[RightDoubleBracket]\\\"}]\\) is \
-longer than depth of object.\"", 2, 18, 2, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562884035*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1517696560,ExpressionUUID->"e4c45c03-2afa-482f-a769-24ca1806da0d"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Part", "partd", 
-   "\"Part specification \\!\\(\\*RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\
-\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}]\\) is \
-longer than depth of object.\"", 2, 18, 3, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.91488356288798*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->115324854,ExpressionUUID->"1f043bc5-913f-4079-802d-d480986bcb61"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Part", "partd", 
-   "\"Part specification \\!\\(\\*RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\
-\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}]\\) is \
-longer than depth of object.\"", 2, 18, 4, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562890079*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1234571584,ExpressionUUID->"e55e576b-9f03-4702-b4f2-b83d1456e2a2"],
-
-Cell[BoxData[
- TemplateBox[{
-  "General", "stop", 
-   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Part\\\", \\\"::\\\", \
-\\\"partd\\\"}], \\\"MessageName\\\"]\\) will be suppressed during this \
-calculation.\"", 2, 18, 5, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562892008*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->457614974,ExpressionUUID->"8d58b6bc-d780-4e26-8ecf-12a683c5aa8d"],
-
-Cell[BoxData[
- TemplateBox[{
-  "FindRoot", "nlnum", 
-   "\"The function value \\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Total\\\", \
-\\\"[\\\", RowBox[{RowBox[{\\\"(\\\", RowBox[{RowBox[{RowBox[{\\\"-\\\", \
-\\\"1.`\\\"}], \\\" \\\", RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}]}], \\\"+\\\", FractionBox[RowBox[{RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}], \\\" \\\", SuperscriptBox[RowBox[{RowBox[{\\\"{\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\[RightSkeleton]\\\"}], \
-\\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\
-\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \\\"1.`\\\"]}], \
-RowBox[{RowBox[{\\\"Times\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\
-\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"+\\\", \
-RowBox[{\\\"Power\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"2\\\", \
-\\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}]]}], \\\")\\\"}], \\\" \\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\"2\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is not a list of \
-numbers with dimensions \\!\\(\\*RowBox[{\\\"{\\\", \\\"1\\\", \\\"}\\\"}]\\) \
-at \\!\\(\\*RowBox[{\\\"{\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"}\\\"}]\\) = \
-\\!\\(\\*RowBox[{\\\"{\\\", \\\"1.`\\\", \\\"}\\\"}]\\).\"", 2, 18, 6, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562910005*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->995928111,ExpressionUUID->"c47af9b1-af9a-4a27-8546-3d2358e62b29"],
-
-Cell[BoxData[
- TemplateBox[{
-  "FindRoot", "nlnum", 
-   "\"The function value \\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Total\\\", \
-\\\"[\\\", RowBox[{RowBox[{\\\"(\\\", RowBox[{RowBox[{RowBox[{\\\"-\\\", \
-\\\"1.`\\\"}], \\\" \\\", RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}]}], \\\"+\\\", FractionBox[RowBox[{RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}], \\\" \\\", SuperscriptBox[RowBox[{RowBox[{\\\"{\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\[RightSkeleton]\\\"}], \
-\\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\
-\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \\\"1.`\\\"]}], \
-RowBox[{RowBox[{\\\"Times\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\
-\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"+\\\", \
-RowBox[{\\\"Power\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"2\\\", \
-\\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}]]}], \\\")\\\"}], \\\" \\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\"2\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is not a list of \
-numbers with dimensions \\!\\(\\*RowBox[{\\\"{\\\", \\\"1\\\", \\\"}\\\"}]\\) \
-at \\!\\(\\*RowBox[{\\\"{\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"}\\\"}]\\) = \
-\\!\\(\\*RowBox[{\\\"{\\\", \\\"1.`\\\", \\\"}\\\"}]\\).\"", 2, 18, 7, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562917444*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1076216859,ExpressionUUID->"8ada4a64-a76a-41b7-a4e1-95714e827eb1"],
-
-Cell[BoxData[
- TemplateBox[{
-  "FindRoot", "nlnum", 
-   "\"The function value \\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Total\\\", \
-\\\"[\\\", RowBox[{RowBox[{\\\"(\\\", RowBox[{RowBox[{RowBox[{\\\"-\\\", \
-\\\"1.`\\\"}], \\\" \\\", RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}]}], \\\"+\\\", FractionBox[RowBox[{RowBox[{\\\"Log\\\", \\\"[\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\
-\[RightSkeleton]\\\"}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\
-\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \
-\\\"]\\\"}], \\\" \\\", SuperscriptBox[RowBox[{RowBox[{\\\"{\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"15\\\", \\\"\[RightSkeleton]\\\"}], \
-\\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\
-\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}], \\\"1.`\\\"]}], \
-RowBox[{RowBox[{\\\"Times\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\
-\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"+\\\", \
-RowBox[{\\\"Power\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"2\\\", \
-\\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}]]}], \\\")\\\"}], \\\" \\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"All\\\", \\\",\\\", \\\"2\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is not a list of \
-numbers with dimensions \\!\\(\\*RowBox[{\\\"{\\\", \\\"1\\\", \\\"}\\\"}]\\) \
-at \\!\\(\\*RowBox[{\\\"{\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"}\\\"}]\\) = \
-\\!\\(\\*RowBox[{\\\"{\\\", \\\"1.`\\\", \\\"}\\\"}]\\).\"", 2, 18, 8, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.91488356292021*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1869474179,ExpressionUUID->"faf11fd2-2765-43f5-9246-810882035714"],
-
-Cell[BoxData[
- TemplateBox[{
-  "General", "stop", 
-   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"FindRoot\\\", \
-\\\"::\\\", \\\"nlnum\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
-during this calculation.\"", 2, 18, 9, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562922876*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->419287196,ExpressionUUID->"e7b35924-5230-4398-ac4c-c9857d5367b7"],
-
-Cell[BoxData[
- TemplateBox[{
-  "ReplaceAll", "reps", 
-   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
-replacement rules nor a valid dispatch table, and so cannot be used for \
-replacing.\"", 2, 18, 10, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562941214*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1066057365,ExpressionUUID->"74b6756f-b355-46d4-86a0-e58e79a46293"],
-
-Cell[BoxData[
- TemplateBox[{
-  "ReplaceAll", "reps", 
-   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
-replacement rules nor a valid dispatch table, and so cannot be used for \
-replacing.\"", 2, 18, 11, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562943688*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->770066634,ExpressionUUID->"f6cce229-07eb-456c-8efd-16a46770f7b3"],
-
-Cell[BoxData[
- TemplateBox[{
-  "ReplaceAll", "reps", 
-   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
-replacement rules nor a valid dispatch table, and so cannot be used for \
-replacing.\"", 2, 18, 12, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.9148835629477873`*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1773460816,ExpressionUUID->"b5c0c46a-93b8-4992-b0b2-d6e980c2fba3"],
-
-Cell[BoxData[
- TemplateBox[{
-  "General", "stop", 
-   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ReplaceAll\\\", \
-\\\"::\\\", \\\"reps\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
-this calculation.\"", 2, 18, 13, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883562950081*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1630397799,ExpressionUUID->"acbb4ae8-6d13-46ac-9a44-39e2a5dddb8d"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Differences", "listrp", 
-   "\"List or SparseArray or structured array expected at position \
-\\!\\(\\*RowBox[{\\\"1\\\"}]\\) in \\!\\(\\*RowBox[{\\\"Differences\\\", \
-\\\"[\\\", SuperscriptBox[RowBox[{\\\"(\\\", RowBox[{\\\"1\\\", \\\"-\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}], \\\"+\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\
-\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}]}], \\\")\
-\\\"}], RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\
-\"/.\\\", \\\"\[VeryThinSpace]\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}]}]], \\\"]\\\"}]\\).\"", 2, 18, 14, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.9148835630481586`*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->204472073,ExpressionUUID->"1e563b37-d98f-4873-a25b-49022a18b519"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Differences", "listrp", 
-   "\"List or SparseArray or structured array expected at position \
-\\!\\(\\*RowBox[{\\\"1\\\"}]\\) in \\!\\(\\*RowBox[{\\\"Differences\\\", \
-\\\"[\\\", SuperscriptBox[RowBox[{\\\"(\\\", RowBox[{\\\"1\\\", \\\"-\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}], \\\"+\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\
-\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}]}], \\\")\
-\\\"}], RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\
-\"/.\\\", \\\"\[VeryThinSpace]\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}]}]], \\\"]\\\"}]\\).\"", 2, 18, 15, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.9148835630512753`*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->588295711,ExpressionUUID->"3abbe3b9-0cfa-4e3a-94b2-6ac75b09ccef"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Differences", "listrp", 
-   "\"List or SparseArray or structured array expected at position \
-\\!\\(\\*RowBox[{\\\"1\\\"}]\\) in \\!\\(\\*RowBox[{\\\"Differences\\\", \
-\\\"[\\\", SuperscriptBox[RowBox[{\\\"(\\\", RowBox[{\\\"1\\\", \\\"-\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \
-\\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \
-\\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \
-\\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\
-\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\
-\"\[LeftDoubleBracket]\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"\
-\[RightDoubleBracket]\\\"}], \\\"+\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\
-\"0.7`\\\", \\\",\\\", \\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \
-\\\"11.3`\\\", \\\",\\\", \\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \
-\\\"18.9`\\\", \\\",\\\", \\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \
-\\\"23.2`\\\", \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\
-\[RightSkeleton]\\\"}]}], \\\"}\\\"}], \\\"\[LeftDoubleBracket]\\\", RowBox[{\
-\\\"All\\\", \\\",\\\", \\\"1\\\"}], \\\"\[RightDoubleBracket]\\\"}]}], \\\")\
-\\\"}], RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\
-\"/.\\\", \\\"\[VeryThinSpace]\\\", RowBox[{\\\"FindRoot\\\", \\\"[\\\", \
-RowBox[{RowBox[{RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`\
-iFaults\\\", \\\"[\\\", RowBox[{\\\"{\\\", RowBox[{\\\"0.7`\\\", \\\",\\\", \
-\\\"2.4`\\\", \\\",\\\", \\\"8.2`\\\", \\\",\\\", \\\"11.3`\\\", \\\",\\\", \
-\\\"12.1`\\\", \\\",\\\", \\\"17.6`\\\", \\\",\\\", \\\"18.9`\\\", \\\",\\\", \
-\\\"20.4`\\\", \\\",\\\", \\\"21.9`\\\", \\\",\\\", \\\"23.2`\\\", \\\",\\\", \
-RowBox[{\\\"\[LeftSkeleton]\\\", \\\"5\\\", \\\"\[RightSkeleton]\\\"}]}], \
-\\\"}\\\"}], \\\"]\\\"}], \\\"[\\\", \
-\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\"]\\\"}], \\\",\
-\\\", RowBox[{\\\"{\\\", \
-RowBox[{\\\"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`b\\\", \\\",\\\", \
-\\\"1\\\"}], \\\"}\\\"}]}], \\\"]\\\"}]}]], \\\"]\\\"}]\\).\"", 2, 18, 16, 
-   26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.9148835630537443`*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->471303989,ExpressionUUID->"a658b400-2d5c-4838-91bc-5449bc6865bc"],
-
-Cell[BoxData[
- TemplateBox[{
-  "General", "stop", 
-   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Differences\\\", \\\"::\
-\\\", \\\"listrp\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
-this calculation.\"", 2, 18, 17, 26568608576834395139, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.914883563056079*^9},
- CellLabel->"During evaluation of In[18]:=",
- CellID->1286452987,ExpressionUUID->"cd4387fa-58ea-4e2d-8f1f-ba2e27903209"],
-
-Cell[BoxData[
- RowBox[{"Association", "[", 
+ RowBox[{"\[LeftAssociation]", 
   RowBox[{
-   RowBox[{
-    RowBox[{"\<\"Beta\"\>", "\[Rule]", "Beta"}], "/.", "\[VeryThinSpace]", 
-    RowBox[{"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`faults", "[", 
-     RowBox[{"{", 
-      RowBox[{
-      "0.7`", ",", "2.4`", ",", "8.2`", ",", "11.3`", ",", "12.1`", ",", 
-       "17.6`", ",", "18.9`", ",", "20.4`", ",", "21.9`", ",", "23.2`", ",", 
-       "25.7`", ",", "42.8`", ",", "48.`", ",", "56.3`", ",", "65.1`"}], 
-      "}"}], "]"}]}], ",", 
-   RowBox[{"\<\"Lambda\"\>", "\[Rule]", 
-    RowBox[{"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`lambda", "[", 
-     RowBox[{"{", 
-      RowBox[{
-      "0.7`", ",", "2.4`", ",", "8.2`", ",", "11.3`", ",", "12.1`", ",", 
-       "17.6`", ",", "18.9`", ",", "20.4`", ",", "21.9`", ",", "23.2`", ",", 
-       "25.7`", ",", "42.8`", ",", "48.`", ",", "56.3`", ",", "65.1`"}], 
-      "}"}], "]"}]}], ",", 
-   RowBox[{"\<\"ChySquare\"\>", "\[Rule]", 
-    RowBox[{"AntonAntonov`ReliabilityTools`CrowAMSAA`Private`chiSq", "[", 
-     RowBox[{"{", 
-      RowBox[{
-      "0.7`", ",", "2.4`", ",", "8.2`", ",", "11.3`", ",", "12.1`", ",", 
-       "17.6`", ",", "18.9`", ",", "20.4`", ",", "21.9`", ",", "23.2`", ",", 
-       "25.7`", ",", "42.8`", ",", "48.`", ",", "56.3`", ",", "65.1`"}], 
-      "}"}], "]"}]}]}], "]"}]], "Output",
- CellChangeTimes->{3.9148835630588512`*^9},
- CellLabel->"Out[18]=",
- CellID->549994513,ExpressionUUID->"8980d906-2735-4812-aa27-5c501433040a"]
+   RowBox[{"\<\"Beta\"\>", "\[Rule]", "2.3268346941221347`"}], ",", 
+   RowBox[{"\<\"Lambda\"\>", "\[Rule]", "0.6870650038691769`"}], ",", 
+   RowBox[{"\<\"ChiSquared\"\>", "\[Rule]", "12.062280253657821`"}]}], 
+  "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.914884309291346*^9},
+ CellLabel->"Out[5]=",
+ CellID->1893509468,ExpressionUUID->"ab02c55d-7ac5-4a13-8a73-2b97fb9e5735"]
 }, Open  ]]
 }, Open  ]],
 
+Cell[CellGroupData[{
+
 Cell["Scope", "Subsection",
- CellID->964056545,ExpressionUUID->"0375f8f3-5d11-480a-9d8d-7b0ed57b99bc"]
+ CellID->964056545,ExpressionUUID->"0375f8f3-5d11-480a-9d8d-7b0ed57b99bc"],
+
+Cell["Estimation", "Subsubsection",
+ CellChangeTimes->{{3.914884206763052*^9, 3.914884215991062*^9}},
+ CellID->74826138,ExpressionUUID->"f1b15762-fd7c-4c8f-9ece-a01e8bd8b52e"],
+
+Cell["Data converters", "Subsubsection",
+ CellChangeTimes->{{3.914884219861761*^9, 3.914884224126771*^9}},
+ CellID->609118233,ExpressionUUID->"1b783054-a733-49c5-afeb-1bb2c344fde6"]
+}, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -3035,8 +2921,8 @@ the following:\n\[FilledSmallSquare] Modifies OS settings\n\
                    RoundingRadius -> 5, ImageSize -> {
                     Scaled[0.65], Automatic}]], "MoreInfoText", Deletable -> 
                  True, CellTags -> {
-                  "SectionMoreInfoDisclosuresOSConfiguration"}, CellMargins -> {\
-{66, 66}, {15, 15}}], 
+                  "SectionMoreInfoDisclosuresOSConfiguration"}, 
+                 CellMargins -> {{66, 66}, {15, 15}}], 
                 HoldComplete[
                  EvaluationCell[]], "Click for more information"}, 
                "InlineMoreInfoOpenerButtonTemplate"]}, "RowDefault"], 
@@ -3125,8 +3011,7 @@ the following:\n\[FilledSmallSquare] Executes Shell or RUN commands\n\
                    FrameMargins -> 20, FrameStyle -> GrayLevel[0.9], 
                    RoundingRadius -> 5, ImageSize -> {
                     Scaled[0.65], Automatic}]], "MoreInfoText", Deletable -> 
-                 True, 
-                 CellTags -> {
+                 True, CellTags -> {
                   "SectionMoreInfoDisclosuresLocalSystemInteractions"}, 
                  CellMargins -> {{66, 66}, {15, 15}}], 
                 HoldComplete[
@@ -3327,8 +3212,9 @@ Fu6DuJJG2H9mK2QZ3X1Y8rjKVdsLU11Qbnfn/Mae/TiO1RZHs2bny+6Vwq5Sfi8TnHKi+1+K4NOh"]\
    "Contexts" -> {"PacletResource`", "PacletResource`DefinitionNotebook`"}, 
     "DefaultContentMethod" -> "Tagged", "HintPods" -> True, "LoadingMethod" -> 
     "Paclet", "PacletName" -> "PacletResource", "SourceID" -> 
-    "8f99c2b0ee5e9f24d331c183562e905b4bbb1a6f"}, "ToolsOpen" -> True, 
-  "StatusMessage" -> "", "SubmissionReviewData" -> {"Review" -> False}},
+    "8f99c2b0ee5e9f24d331c183562e905b4bbb1a6f"}, "ToolsOpen" -> False, 
+  "StatusMessage" -> "", "SubmissionReviewData" -> {"Review" -> False}, 
+  "AutoUpdate" -> True, "Paclet" -> "None"},
 CreateCellID->True,
 DynamicEvaluationTimeout->60,
 FrontEndVersion->"14.0 for Mac OS X ARM (64-bit) (December 12, 2023)",

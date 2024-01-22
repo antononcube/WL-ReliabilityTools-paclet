@@ -44,7 +44,7 @@ CrowAMSAAForecast[list_?MatrixQ] :=
     <|
       "Beta" -> faults[list],
       "Lambda" -> lambda[list],
-      "ChySquare" -> chiSq[list]
+      "ChiSquared" -> chiSq[list]
     |> /; MatrixQ[list, NumericQ] && Dimensions[list][[2]] == 2;
 
 End[];
