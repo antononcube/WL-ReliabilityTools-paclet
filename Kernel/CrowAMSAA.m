@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 BeginPackage["AntonAntonov`ReliabilityTools`CrowAMSAA`"];
 
 Begin["`Private`"];
@@ -11,7 +13,7 @@ numPart[T_, beta_] := T^beta * Log[T];
 Clear[iFaults];
 iFaults[list_List][beta_] :=
     With[{n = list[[All, 2]], T = Prepend[list[[All, 1]] - list[[1 , 1]] + 1, 0]},
-      N[Total[n (((numPart[#, beta] & /@ Rest[T]) - (numPart[#, beta] & /@ Most[T])) / (Rest[T]^beta - Most[T]^beta ) - Log[Last[T]])]]
+      N[Total[n * (((numPart[#, beta] & /@ Rest[T]) - (numPart[#, beta] & /@ Most[T])) / (Rest[T]^beta - Most[T]^beta ) - Log[Last[T]])]]
     ];
 
 Clear[faults];
