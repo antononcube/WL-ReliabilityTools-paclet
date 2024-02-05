@@ -15,7 +15,8 @@ PacletObject[
         "Root" -> "Kernel",
         "Context" -> {"AntonAntonov`ReliabilityTools`"},
         "Symbols" -> {
-          "AntonAntonov`ReliabilityTools`CrowAMSAAForecast"
+          "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
+          "AntonAntonov`ReliabilityTools`GrowthTrackingPlot"
         }
       },
       {
