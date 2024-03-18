@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* Mathematica Source File *)
 (* Created by the Wolfram Language Plugin for IntelliJ, see http://wlplugin.halirutan.de/ *)
 (* :Author: Anton Antonov *)
@@ -45,7 +47,7 @@ GetTrainingWindow[data_TemporalData, spec_] :=
       Map[If[DateObjectQ[#], AbsoluteTime[#], #] &, res]
     ];
 
-GetTrainingWindow[data_ : {_?NumericQ ...}, spec_] :=
+GetTrainingWindow[data : {_?NumericQ ...}, spec_] :=
     Switch[spec,
       Automatic, {1, Round[Length[data] * 0.75]},
       _Integer, {1, spec},
@@ -63,7 +65,10 @@ Clear[SimpleAnomalyDetection];
 
 Options[SimpleAnomalyDetection] = {"OutlierIdentifier" -> "Hampel"};
 
-SimpleAnomalyDetection[ts_TemporalData, window_ : Automatic, opts : OptionsPattern[]] :=
+SimpleAnomalyDetection[ts_TemporalData, opts : OptionsPattern[]] :=
+    SimpleAnomalyDetection[ts, Automatic, opts];
+
+SimpleAnomalyDetection[ts_TemporalData, window_, opts : OptionsPattern[]] :=
     Block[{split, trainingData, testingData},
       split = GetTrainingWindow[ts, window];
       trainingData = Pick[ts["Values"], Map[split[[1]] <= # <= split[[2]] &, ts["Times"]]];
@@ -71,13 +76,16 @@ SimpleAnomalyDetection[ts_TemporalData, window_ : Automatic, opts : OptionsPatte
       SimpleAnomalyDetection[{trainingData, testingData}, opts]
     ];
 
-SimpleAnomalyDetection[vals : {_?NumberQ ..}, window_ : Automatic, opts : OptionsPattern[]] :=
+SimpleAnomalyDetection[vals : {_?NumberQ ..},opts : OptionsPattern[]] :=
+    SimpleAnomalyDetection[vals, Automatic, opts];
+
+SimpleAnomalyDetection[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
     Block[{split},
       split = GetTrainingWindow[vals, window];
       SimpleAnomalyDetection[{Take[vals, split], Drop[vals, split]}, opts]
     ];
 
-SimpleAnomalyDetection[{training_ : {_?NumberQ ..}, new_ : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
+SimpleAnomalyDetection[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
     Block[{oiParamsFunc, params},
 
       oiParamsFunc = OptionValue[SimpleAnomalyDetection, "OutlierIdentifier"];
