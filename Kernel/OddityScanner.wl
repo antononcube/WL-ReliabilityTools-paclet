@@ -153,33 +153,90 @@ GNNMonAnomalyDetector[data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
     ];
 
 (********************************************************************)
+(* AnomalyPropSpecQ                                                 *)
+(********************************************************************)
+
+lsKnownProperties = {"Anomalies", "AnomalyCount", "AnomalyBooleanList", "AnomalyPositions", "NonAnomalies"};
+
+Clear[KnownAnomalyPropQ];
+KnownAnomalyPropQ[s_String] := MemberQ[lsKnownProperties, s];
+KnownAnomalyPropQ[_] := False;
+
+Clear[AnomalyPropSpecQ];
+AnomalyPropSpecQ[x_String] := KnownAnomalyPropQ[x];
+AnomalyPropSpecQ[Automatic] := True;
+AnomalyPropSpecQ[x_List] := And @@ Map[KnownAnomalyPropQ, x];
+AnomalyPropSpecQ[_] := False;
+
+(********************************************************************)
 (* GNNMonAnomalyDetection                                           *)
 (********************************************************************)
 
 Clear[GNNMonAnomalyDetection];
 
-GNNMonAnomalyDetection[training : {_?NumberQ ..}, opts : OptionsPattern[]] :=
-    GNNMonAnomalyDetection[training, training, opts];
+GNNMonAnomalyDetection::noprop =
+    "Do not know how to process the given property spec. " <>
+    "The property spec can be Automatic, one on the strings `1`, or a list of those strings.";
 
-GNNMonAnomalyDetection[training : {_?NumberQ ..}, new : {_?NumberQ ..}, opts : OptionsPattern[]] :=
-    Block[{oiParamsFunc, params},
-      $Failed
+GNNMonAnomalyDetection::noargs =
+    "The first argument is expected to be a list of numbers or a GNNMon object. " <>
+        "The second argument is expected to be a list of numbers or a property spec. " <>
+        "The third argument is expected to be a property spec.";
+
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    GNNMonAnomalyDetection[training, "Anomalies", opts];
+
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, prop_?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
+    GNNMonAnomalyDetection[training, training, prop, opts];
+
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    GNNMonAnomalyDetection[training, new, "Anomalies", opts];
+
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop_, opts : OptionsPattern[]] :=
+    Block[{gnnObj},
+      gnnObj = GNNMonAnomalyDetector[training, opts];
+      GNNMonAnomalyDetection[gnnObj, new, prop, opts]
     ];
 
-GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
-    Block[{testingData},
+GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    GNNMonAnomalyDetection[gnnObj, data, "Anomalies", opts];
+
+GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumericQ ..}, propArg_, opts : OptionsPattern[]] :=
+    Block[{prop = propArg, testingData, resPositions, res, dr},
+
+      If[AtomQ[prop], prop = {prop}];
+      If[!AnomalyPropSpecQ[prop],
+        Message[GNNMonAnomalyDetection::noprop, lsKnownProperties];
+        Return[$Failed];
+      ];
 
       testingData = Partition[data, Fold[GNNMonBind, gnnObj, {GNNMonTakeContext}]["windowSize"], 1];
 
-      Fold[
+      resPositions = Fold[
         GNNMonBind,
         gnnObj,
         {
           GNNMonFindAnomalies[testingData, "AnomalyPositions"],
           GNNMonTakeValue
         }
-      ]
+      ];
+
+      res =
+          Switch[#,
+            Automatic, testingData[[resPositions]],
+            "Anomalies", testingData[[resPositions]],
+            "AnomalyCount", Length@resPositions,
+            "AnomalyBooleanList", dr = Dispatch[Append[Thread[resPositions -> True], _Integer -> False]]; Range[1, Length@testingData] /. dr,
+            "AnomalyPositions", resPositions,
+            "NonAnomalies", Complement[Range[1, Length@testingData], resPositions],
+            _, Message[GNNMonAnomalyDetection::noprop, lsKnownProperties]; testingData
+          ]& /@ prop;
+
+      If[AtomQ[propArg], res[[1]], res]
     ];
+
+(*GNNMonAnomalyDetection[___] :=*)
+(*    (Message[GNNMonAnomalyDetection::noargs]; $Failed);*)
 
 (********************************************************************)
 (* OddityScanner                                                    *)
