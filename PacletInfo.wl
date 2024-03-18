@@ -16,7 +16,9 @@ PacletObject[
         "Context" -> {"AntonAntonov`ReliabilityTools`"},
         "Symbols" -> {
           "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
-          "AntonAntonov`ReliabilityTools`GrowthTrackingPlot"
+          "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
+          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
+          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection"
         }
       },
       {
