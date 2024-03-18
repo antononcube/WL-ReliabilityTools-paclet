@@ -254,7 +254,7 @@ Clear[OddityScanner];
 
 Options[OddityScanner] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
 
-OddityScanner[ts_TemporalData, window_ : Automatic, opts : OptionsPattern[]] :=
+OddityScanner[ts_TemporalData, window_, opts : OptionsPattern[]] :=
     Block[{split, trainingData, testingData},
       split = GetTrainingWindow[ts, window];
       trainingData = Pick[ts["Values"], Map[split[[1]] <= # <= split[[2]] &, ts["Times"]]];
@@ -262,7 +262,7 @@ OddityScanner[ts_TemporalData, window_ : Automatic, opts : OptionsPattern[]] :=
       OddityScanner[{trainingData, testingData}, opts]
     ];
 
-OddityScanner[vals : {_?NumberQ ..}, window_ : Automatic, opts : OptionsPattern[]] :=
+OddityScanner[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
     Block[{split},
       split = GetTrainingWindow[vals, window];
       OddityScanner[{Take[vals, split], Drop[vals, split]}, opts]
