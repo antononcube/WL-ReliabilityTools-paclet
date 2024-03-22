@@ -18,7 +18,9 @@ PacletObject[
           "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
           "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
-          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection"
+          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
+          "AntonAntonov`ReliabilityTools`GetTrainingWindow",
+          "AntonAntonov`ReliabilityTools`AnomalyFinder"
         }
       },
       {

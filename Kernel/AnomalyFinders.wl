@@ -6,7 +6,7 @@
 (* :Date: 2024-03-15 *)
 
 
-BeginPackage["AntonAntonov`ReliabilityTools`OddityScanner`"];
+BeginPackage["AntonAntonov`ReliabilityTools`AnomalyFinders`"];
 
 Begin["`Private`"];
 
@@ -109,11 +109,11 @@ Options[GNNMonAnomalyDetector] = {
   "OutlierIdentifier" -> "Hampel",
   DistanceFunction -> EuclideanDistance,
   "AggregationFunction" -> Mean,
-  "NearestNeighbors" -> 10
+  "NumberOfNearestNeighbors" -> 10
 };
 
 GNNMonAnomalyDetector::nowsize = "The value of the option \"WindowSize\" is expected to be a integer greater than 1.";
-GNNMonAnomalyDetector::nonns = "The value of the option \"NearestNeighbors\" is expected to be a positive integer.";
+GNNMonAnomalyDetector::nonns = "The value of the option \"NumberOfNearestNeighbors\" is expected to be a positive integer.";
 
 GNNMonAnomalyDetector[data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
     Block[{windowSize, distFunc, oi, aggFunc, nns, trainingData},
@@ -133,12 +133,13 @@ GNNMonAnomalyDetector[data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
 
       (*Outlier identifier*)
       oi = OptionValue[GNNMonAnomalyDetector, "OutlierIdentifier"];
+      If[ TrueQ[oi === Automatic], oi = "Hampel" ];
 
       (*Aggregation function*)
       aggFunc = OptionValue[GNNMonAnomalyDetector, "AggregationFunction"];
 
       (*Nearest neighbors*)
-      nns = OptionValue[GNNMonAnomalyDetector, "NearestNeighbors"];
+      nns = OptionValue[GNNMonAnomalyDetector, "NumberOfNearestNeighbors"];
 
       If[ !(IntegerQ[nns] && nns > 0),
         Message[GNNMonAnomalyDetector::nonns];
@@ -247,30 +248,42 @@ GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumericQ ..}, propArg_, opts : O
 (*    (Message[GNNMonAnomalyDetection::noargs]; $Failed);*)
 
 (********************************************************************)
-(* OddityScanner                                                    *)
+(* AnomalyFinder                                                    *)
 (********************************************************************)
 
-Clear[OddityScanner];
+Clear[AnomalyFinder];
 
-Options[OddityScanner] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
+Options[AnomalyFinder] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
 
-OddityScanner[ts_TemporalData, window_, opts : OptionsPattern[]] :=
+AnomalyFinder[ts_TemporalData, window_, opts : OptionsPattern[]] :=
     Block[{split, trainingData, testingData},
       split = GetTrainingWindow[ts, window];
       trainingData = Pick[ts["Values"], Map[split[[1]] <= # <= split[[2]] &, ts["Times"]]];
       testingData = Pick[ts["Values"], Map[# <= split[[1]] || split[[2]] <= # &, ts["Times"]]];
-      OddityScanner[{trainingData, testingData}, opts]
+      AnomalyFinder[{trainingData, testingData}, opts]
     ];
 
-OddityScanner[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
+AnomalyFinder[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
     Block[{split},
       split = GetTrainingWindow[vals, window];
-      OddityScanner[{Take[vals, split], Drop[vals, split]}, opts]
+      AnomalyFinder[{Take[vals, split], Drop[vals, split]}, opts]
     ];
 
-OddityScanner[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
-    Block[{oiParamsFunc, params},
-      $Failed
+AnomalyFinder[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
+    Block[{method},
+
+      method=OptionValue[AnomalyFinder, Method];
+      If[SameQ[method, Automatic], method = "GNNMonAnomalyDetection"];
+
+      Which[
+        MemberQ[{"GNNMonAnomalyDetection", "GNNMon", "NearestNeighbors", Nearest, Automatic}, method],
+        GNNMonAnomalyDetection[training, new, opts],
+
+        MemberQ[{"SimpleAnomalyDetection", "1D", "1DOutliers"}, method],
+        SimpleAnomalyDetection[training, new, opts],
+
+        True, $Failed
+      ]
     ];
 
 End[]; (* `Private` *)
