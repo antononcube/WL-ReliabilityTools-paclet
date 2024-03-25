@@ -56,6 +56,21 @@ GetTrainingWindow[data : {_?NumericQ ...}, spec_] :=
     GetTrainingWindow[data, Automatic];
     ];
 
+(********************************************************************)
+(* AnomalyPropSpecQ                                                 *)
+(********************************************************************)
+
+lsKnownProperties = {"Anomalies", "AnomalyCount", "AnomalyBooleanList", "AnomalyPositions", "NonAnomalies"};
+
+Clear[KnownAnomalyPropQ];
+KnownAnomalyPropQ[s_String] := MemberQ[lsKnownProperties, s];
+KnownAnomalyPropQ[_] := False;
+
+Clear[AnomalyPropSpecQ];
+AnomalyPropSpecQ[x_String] := KnownAnomalyPropQ[x];
+AnomalyPropSpecQ[Automatic] := True;
+AnomalyPropSpecQ[x_List] := And @@ Map[KnownAnomalyPropQ, x];
+AnomalyPropSpecQ[_] := False;
 
 (********************************************************************)
 (* SimpleAnomalyDetection                                           *)
@@ -63,30 +78,22 @@ GetTrainingWindow[data : {_?NumericQ ...}, spec_] :=
 
 Clear[SimpleAnomalyDetection];
 
+SimpleAnomalyDetection::noprop = "Do not know how to process the given property spec. " <>
+    "The property spec can be Automatic, one on the strings `1`, or a list of those strings.";
+
 Options[SimpleAnomalyDetection] = {"OutlierIdentifier" -> "Hampel"};
 
-SimpleAnomalyDetection[ts_TemporalData, opts : OptionsPattern[]] :=
-    SimpleAnomalyDetection[ts, Automatic, opts];
+SimpleAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    SimpleAnomalyDetection[training, new, "Anomalies"];
 
-SimpleAnomalyDetection[ts_TemporalData, window_, opts : OptionsPattern[]] :=
-    Block[{split, trainingData, testingData},
-      split = GetTrainingWindow[ts, window];
-      trainingData = Pick[ts["Values"], Map[split[[1]] <= # <= split[[2]] &, ts["Times"]]];
-      testingData = Pick[ts["Values"], Map[# <= split[[1]] || split[[2]] <= # &, ts["Times"]]];
-      SimpleAnomalyDetection[{trainingData, testingData}, opts]
-    ];
+SimpleAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, propArg_?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
+    Block[{prop = propArg, oiParamsFunc, params, resPositions, res, dr},
 
-SimpleAnomalyDetection[vals : {_?NumberQ ..},opts : OptionsPattern[]] :=
-    SimpleAnomalyDetection[vals, Automatic, opts];
-
-SimpleAnomalyDetection[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
-    Block[{split},
-      split = GetTrainingWindow[vals, window];
-      SimpleAnomalyDetection[{Take[vals, split], Drop[vals, split]}, opts]
-    ];
-
-SimpleAnomalyDetection[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
-    Block[{oiParamsFunc, params},
+      If[AtomQ[prop], prop = {prop}];
+      If[!AnomalyPropSpecQ[prop],
+        Message[GNNMonAnomalyDetection::noprop, lsKnownProperties];
+        Return[$Failed];
+      ];
 
       oiParamsFunc = OptionValue[SimpleAnomalyDetection, "OutlierIdentifier"];
       oiParamsFunc = If[TrueQ[oiParamsFunc === Automatic], "Hampel", oiParamsFunc];
@@ -94,8 +101,20 @@ SimpleAnomalyDetection[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts :
 
       params = oiParamsFunc[training];
 
-      <|"Positions" -> OutlierPosition[new, params &],
-        "Outliers" -> OutlierIdentifier[new, params &]|>
+      resPositions = OutlierPosition[new, params &];
+
+      res =
+          Switch[#,
+            Automatic, new[[resPositions]],
+            "Anomalies", new[[resPositions]],
+            "AnomalyCount", Length@resPositions,
+            "AnomalyBooleanList", dr = Dispatch[Append[Thread[resPositions -> True], _Integer -> False]]; Range[1, Length@new] /. dr,
+            "AnomalyPositions", resPositions,
+            "NonAnomalies", Complement[Range[1, Length@new], resPositions],
+            _, Message[SimpleAnomalyDetection::noprop, lsKnownProperties]; new
+          ]& /@ prop;
+
+      If[AtomQ[propArg], res[[1]], res]
     ];
 
 (********************************************************************)
@@ -115,7 +134,7 @@ Options[GNNMonAnomalyDetector] = {
 GNNMonAnomalyDetector::nowsize = "The value of the option \"WindowSize\" is expected to be a integer greater than 1.";
 GNNMonAnomalyDetector::nonns = "The value of the option \"NumberOfNearestNeighbors\" is expected to be a positive integer.";
 
-GNNMonAnomalyDetector[data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
+GNNMonAnomalyDetector[data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
     Block[{windowSize, distFunc, oi, aggFunc, nns, trainingData},
 
       (*Window size*)
@@ -162,35 +181,19 @@ GNNMonAnomalyDetector[data : {_?NumberQ ..}, opts : OptionsPattern[]] :=
     ];
 
 (********************************************************************)
-(* AnomalyPropSpecQ                                                 *)
-(********************************************************************)
-
-lsKnownProperties = {"Anomalies", "AnomalyCount", "AnomalyBooleanList", "AnomalyPositions", "NonAnomalies"};
-
-Clear[KnownAnomalyPropQ];
-KnownAnomalyPropQ[s_String] := MemberQ[lsKnownProperties, s];
-KnownAnomalyPropQ[_] := False;
-
-Clear[AnomalyPropSpecQ];
-AnomalyPropSpecQ[x_String] := KnownAnomalyPropQ[x];
-AnomalyPropSpecQ[Automatic] := True;
-AnomalyPropSpecQ[x_List] := And @@ Map[KnownAnomalyPropQ, x];
-AnomalyPropSpecQ[_] := False;
-
-(********************************************************************)
 (* GNNMonAnomalyDetection                                           *)
 (********************************************************************)
 
 Clear[GNNMonAnomalyDetection];
 
-GNNMonAnomalyDetection::noprop =
-    "Do not know how to process the given property spec. " <>
-    "The property spec can be Automatic, one on the strings `1`, or a list of those strings.";
+GNNMonAnomalyDetection::noprop = SimpleAnomalyDetection::noprop;
 
 GNNMonAnomalyDetection::noargs =
     "The first argument is expected to be a list of numbers or a GNNMon object. " <>
         "The second argument is expected to be a list of numbers or a property spec. " <>
         "The third argument is expected to be a property spec.";
+
+Options[GNNMonAnomalyDetection] = Options[GNNMonAnomalyDetector];
 
 GNNMonAnomalyDetection[training : {_?NumericQ ..}, opts : OptionsPattern[]] :=
     GNNMonAnomalyDetection[training, "Anomalies", opts];
@@ -248,10 +251,27 @@ GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumericQ ..}, propArg_, opts : O
 (*    (Message[GNNMonAnomalyDetection::noargs]; $Failed);*)
 
 (********************************************************************)
+(* ProcessMethodSpec                                                *)
+(********************************************************************)
+
+ProcessMethodSpec[spec_] :=
+    Block[{},
+      Which[
+        AtomQ[spec], {spec, {}},
+        ListQ[spec], {First@ spec, Rest @ spec},
+        True,
+        Message[AnomalyFinder::nomspec];
+        $Failed
+      ]
+    ];
+
+(********************************************************************)
 (* AnomalyFinder                                                    *)
 (********************************************************************)
 
 Clear[AnomalyFinder];
+
+AnomalyFinder::nomspec = "Do not know how to process the method spec.";
 
 Options[AnomalyFinder] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
 
@@ -263,24 +283,35 @@ AnomalyFinder[ts_TemporalData, window_, opts : OptionsPattern[]] :=
       AnomalyFinder[{trainingData, testingData}, opts]
     ];
 
-AnomalyFinder[vals : {_?NumberQ ..}, window_, opts : OptionsPattern[]] :=
+AnomalyFinder[vals : {_?NumericQ ..}, window_, opts : OptionsPattern[]] :=
     Block[{split},
       split = GetTrainingWindow[vals, window];
       AnomalyFinder[{Take[vals, split], Drop[vals, split]}, opts]
     ];
 
-AnomalyFinder[{training : {_?NumberQ ..}, new : {_?NumberQ ..}}, opts : OptionsPattern[]] :=
-    Block[{method},
+AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, opts : OptionsPattern[]] :=
+    AnomalyFinder[{training, new}, "Anomalies", opts];
 
-      method=OptionValue[AnomalyFinder, Method];
+AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, prop_?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
+    Block[{method, res, opts2},
+
+      method = OptionValue[AnomalyFinder, Method];
       If[SameQ[method, Automatic], method = "GNNMonAnomalyDetection"];
+
+      res = ProcessMethodSpec[method];
+      Echo[method, "method:"];
+      If[ SameQ[res, $Failed], Return[$Failed]];
+
+      {method, opts2} = res;
+      opts2 = Flatten @ Join[opts2, DeleteCases[{opts}, HoldPattern[Method -> _]]];
+      Echo[opts2, "opts2:"];
 
       Which[
         MemberQ[{"GNNMonAnomalyDetection", "GNNMon", "NearestNeighbors", Nearest, Automatic}, method],
-        GNNMonAnomalyDetection[training, new, opts],
+        GNNMonAnomalyDetection[training, new, prop, FilterRules[opts2, Options[GNNMonAnomalyDetection]]],
 
-        MemberQ[{"SimpleAnomalyDetection", "1D", "1DOutliers"}, method],
-        SimpleAnomalyDetection[training, new, opts],
+        MemberQ[{"Simple", "SimpleAnomalyDetection", "1D", "1DOutliers"}, method],
+        SimpleAnomalyDetection[training, new, prop, FilterRules[opts2, Options[SimpleAnomalyDetection]]],
 
         True, $Failed
       ]
