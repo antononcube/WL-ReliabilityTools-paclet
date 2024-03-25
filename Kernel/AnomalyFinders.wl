@@ -299,12 +299,10 @@ AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, prop_?Anomaly
       If[SameQ[method, Automatic], method = "GNNMonAnomalyDetection"];
 
       res = ProcessMethodSpec[method];
-      Echo[method, "method:"];
       If[ SameQ[res, $Failed], Return[$Failed]];
 
       {method, opts2} = res;
       opts2 = Flatten @ Join[opts2, DeleteCases[{opts}, HoldPattern[Method -> _]]];
-      Echo[opts2, "opts2:"];
 
       Which[
         MemberQ[{"GNNMonAnomalyDetection", "GNNMon", "NearestNeighbors", Nearest, Automatic}, method],
