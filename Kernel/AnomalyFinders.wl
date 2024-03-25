@@ -153,6 +153,8 @@ GNNMonAnomalyDetector[data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
       (*Outlier identifier*)
       oi = OptionValue[GNNMonAnomalyDetector, "OutlierIdentifier"];
       If[ TrueQ[oi === Automatic], oi = "Hampel" ];
+      oi = oi /. aNameToParamFinder;
+
 
       (*Aggregation function*)
       aggFunc = OptionValue[GNNMonAnomalyDetector, "AggregationFunction"];
