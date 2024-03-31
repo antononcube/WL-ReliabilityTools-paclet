@@ -23,7 +23,8 @@ PacletObject[
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
           "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
-          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection"
+          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection",
+          "AntonAntonov`ReliabilityTools`IngestSeeqData"
         }
       },
       {
