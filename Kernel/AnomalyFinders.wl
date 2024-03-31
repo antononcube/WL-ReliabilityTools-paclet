@@ -206,7 +206,7 @@ GNNMonAnomalyDetection[training : {_?NumericQ ..}, prop_?AnomalyPropSpecQ, opts 
 GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
     GNNMonAnomalyDetection[training, new, "Anomalies", opts];
 
-GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop_, opts : OptionsPattern[]] :=
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop__?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
     Block[{gnnObj},
       gnnObj = GNNMonAnomalyDetector[training, opts];
       GNNMonAnomalyDetection[gnnObj, new, prop, opts]
@@ -249,8 +249,8 @@ GNNMonAnomalyDetection[gnnObj_GNNMon, data : {_?NumericQ ..}, propArg_, opts : O
       If[AtomQ[propArg], res[[1]], res]
     ];
 
-(*GNNMonAnomalyDetection[___] :=*)
-(*    (Message[GNNMonAnomalyDetection::noargs]; $Failed);*)
+GNNMonAnomalyDetection[___] :=
+    (Message[GNNMonAnomalyDetection::noargs]; $Failed);
 
 (********************************************************************)
 (* ProcessMethodSpec                                                *)
@@ -273,6 +273,10 @@ ProcessMethodSpec[spec_] :=
 
 Clear[AnomalyFinder];
 
+AnomalyFinder::nargs =
+    "The first two arguments are expected to be lists of numbers. " <>
+        "The third optional argument is expected to be a property spec.";
+
 AnomalyFinder::nomspec = "Do not know how to process the method spec.";
 
 Options[AnomalyFinder] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
@@ -290,6 +294,12 @@ AnomalyFinder[vals : {_?NumericQ ..}, window_, opts : OptionsPattern[]] :=
       split = GetTrainingWindow[vals, window];
       AnomalyFinder[{Take[vals, split], Drop[vals, split]}, opts]
     ];
+
+AnomalyFinder[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    AnomalyFinder[{training, new}, "Anomalies", opts];
+
+AnomalyFinder[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop_?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
+    AnomalyFinder[{training, new}, prop, opts];
 
 AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, opts : OptionsPattern[]] :=
     AnomalyFinder[{training, new}, "Anomalies", opts];
@@ -316,6 +326,8 @@ AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, prop_?Anomaly
         True, $Failed
       ]
     ];
+
+AnomalyFinder[___] := (Message[AnomalyFinder::nargs]; $Failed);
 
 End[]; (* `Private` *)
 
