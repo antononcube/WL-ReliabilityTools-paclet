@@ -12,12 +12,14 @@ GNNMonAnomalyDetector::usage = "Makes GNNMon anomaly detector.";
 GNNMonAnomalyDetection::usage = "GNNMon anomaly detection.";
 SimpleAnomalyDetection::usage = "Anomaly detection with 1D outlier identifiers.";
 AnomalyFinder::usage = "Overall anomaly detection function.";
+IngestSeeqData::usage = "Ingesting Seeq data from different sources into different formats.";
 
 Begin["`Private`"];
 
 Needs["AntonAntonov`ReliabilityTools`CrowAMSAA`"];
 Needs["AntonAntonov`ReliabilityTools`GrowthTracking`"];
 Needs["AntonAntonov`ReliabilityTools`AnomalyFinders`"];
+Needs["AntonAntonov`ReliabilityTools`DataIngestors`"];
 
 End[];
 EndPackage[];
