@@ -1,12 +1,14 @@
+(* ::Package:: *)
+
 PacletObject[
   <|
     "Name" -> "AntonAntonov/ReliabilityTools",
     "Description" -> "Reliability-related algorithms and tools",
     "Creator" -> "Anton Antonov",
+    "License" -> "MIT",
+    "PublisherID" -> "AntonAntonov",
     "Version" -> "1.0.0",
     "WolframVersion" -> "13+",
-    "PublisherID" -> "AntonAntonov",
-    "License" -> "MIT",
     "PrimaryContext" -> "AntonAntonov`ReliabilityTools`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
     "Extensions" -> {
@@ -15,12 +17,13 @@ PacletObject[
         "Root" -> "Kernel",
         "Context" -> {"AntonAntonov`ReliabilityTools`"},
         "Symbols" -> {
+          "AntonAntonov`ReliabilityTools`AnomalyFinder",
           "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
-          "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
-          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
-          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
           "AntonAntonov`ReliabilityTools`GetTrainingWindow",
-          "AntonAntonov`ReliabilityTools`AnomalyFinder"
+          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
+          "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
+          "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
+          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection"
         }
       },
       {
