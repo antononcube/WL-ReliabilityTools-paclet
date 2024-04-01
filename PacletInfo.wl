@@ -25,7 +25,7 @@ PacletObject[
           "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
           "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection",
           "AntonAntonov`ReliabilityTools`IngestSeeqData",
-          "AntonAntonov`ReliabilityTools`IngestAdHocXMLExport"
+          "AntonAntonov`ReliabilityTools`IngestXMLData"
         }
       },
       {

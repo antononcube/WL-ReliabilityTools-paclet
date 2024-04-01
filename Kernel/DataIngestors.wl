@@ -74,7 +74,7 @@ IngestSeeqData[___] := (
 );
 
 (************************************************************)
-(* IngestAdHocXMLExport                                     *)
+(* IngestXMLData                                            *)
 (************************************************************)
 
 Clear[GetXMLRecord];
@@ -89,15 +89,15 @@ GetXMLRecord[xmlData_] :=
 
 (*---------------------------------------------------------*)
 
-Clear[IngestAdHocXMLExport];
+Clear[IngestXMLData];
 
-IngestAdHocXMLExport[fileName : (_?StringQ | _File | _URL)] :=
+IngestXMLData[fileName : (_?StringQ | _File | _URL)] :=
     Module[{data},
       data = Import[fileName, "XML"];
-      IngestAdHocXMLExport[data]
+      IngestXMLData[data]
     ];
 
-IngestAdHocXMLExport[data_] :=
+IngestXMLData[data_] :=
     Module[{lsRecords, dsRecords, recLength},
 
       lsRecords = Flatten[GetXMLRecord /@ Cases[data, XMLElement["entry", __], Infinity]];

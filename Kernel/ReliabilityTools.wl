@@ -13,7 +13,7 @@ GNNMonAnomalyDetection::usage = "GNNMon anomaly detection.";
 SimpleAnomalyDetection::usage = "Anomaly detection with 1D outlier identifiers.";
 AnomalyFinder::usage = "Overall anomaly detection function.";
 IngestSeeqData::usage = "Ingesting Seeq data from different sources into different formats.";
-IngestAdHocXMLExport::usage = "Ingesting XML data into a dataset.";
+IngestXMLData::usage = "Ingesting XML data into a dataset.";
 
 Begin["`Private`"];
 
