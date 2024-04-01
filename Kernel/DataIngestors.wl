@@ -18,6 +18,10 @@ Begin["`Private`"];
 
 Needs["AntonAntonov`ReliabilityTools`"];
 
+(************************************************************)
+(* IngestSeeqData                                           *)
+(************************************************************)
+
 ClearAll[IngestSeeqData];
 
 IngestSeeqData::nofile = "The file \"`1`\" does not exist";
@@ -68,6 +72,42 @@ IngestSeeqData[___] := (
   Message[IngestSeeqData::nargs];
   $Failed
 );
+
+(************************************************************)
+(* IngestAdHocXMLExport                                     *)
+(************************************************************)
+
+Clear[GetXMLRecord];
+GetXMLRecord[xmlData_] :=
+    Block[{res},
+      res = Cases[xmlData, XMLElement[{_, "properties"}, __], Infinity];
+      If[Length[res] > 0,
+        Flatten@Map[Association@Cases[#, XMLElement[{x_String /; StringEndsQ[x, "dataservices"], fname_String}, {}, {d_}] :> (fname -> d), Infinity] &, res[[All, 3]]],
+        {}
+      ]
+    ];
+
+(*---------------------------------------------------------*)
+
+Clear[IngestAdHocXMLExport];
+
+IngestAdHocXMLExport[fileName : (_?StringQ | _File | _URL)] :=
+    Module[{data},
+      data = Import[fileName, "XML"];
+      IngestAdHocXMLExport[data]
+    ];
+
+IngestAdHocXMLExport[data_] :=
+    Module[{lsRecords, dsRecords, recLength},
+
+      lsRecords = Flatten[GetXMLRecord /@ Cases[data, XMLElement["entry", __], Infinity]];
+      
+      recLength = First @ Flatten @ TakeLargestBy[Tally[Length /@ lsRecords], Last, 1];
+      dsRecords = Dataset[Select[lsRecords, Length[#] == recLength &]];
+
+      dsRecords[All, Join[ToExpression /@ KeyDrop[#, "timestamp"], <|"DateObject" -> DateObject[#timestamp]|>]&]
+
+    ] /; MatchQ[data, XMLObject[__][___]];
 
 End[]; (* `Private` *)
 
