@@ -273,7 +273,7 @@ ProcessMethodSpec[spec_] :=
 
 Clear[AnomalyFinder];
 
-AnomalyFinder::nargs =
+AnomalyFinder::noargs =
     "The first two arguments are expected to be lists of numbers. " <>
         "The third optional argument is expected to be a property spec.";
 
@@ -327,7 +327,7 @@ AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, prop_?Anomaly
       ]
     ];
 
-AnomalyFinder[___] := (Message[AnomalyFinder::nargs]; $Failed);
+AnomalyFinder[___] := (Message[AnomalyFinder::noargs]; $Failed);
 
 End[]; (* `Private` *)
 
