@@ -15,6 +15,9 @@ AnomalyFinder::usage = "Overall anomaly detection function.";
 IngestSeeqData::usage = "Ingesting Seeq data from different sources into different formats.";
 IngestXMLData::usage = "Ingesting XML data into a dataset.";
 
+PacletInstall["AntonAntonov/OutlierIdentifiers", AllowVersionUpdate -> False];
+PacletInstall["AntonAntonov/MonadicGeometricNearestNeighbors", AllowVersionUpdate -> False];
+
 Begin["`Private`"];
 
 Needs["AntonAntonov`ReliabilityTools`CrowAMSAA`"];
