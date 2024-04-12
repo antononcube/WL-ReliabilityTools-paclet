@@ -3,12 +3,12 @@
 
 (* :Title: DataIngestors *)
 (* :Context: DataIngestors` *)
-(* :Author: antonov *)
+(* :Author: Anton Antonov *)
 (* :Date: 2024-03-31 *)
 
 (* :Package Version: 0.1 *)
 (* :Mathematica Version: 14.0 *)
-(* :Copyright: (c) 2024 antonov *)
+(* :Copyright: (c) 2024 Anton Antonov *)
 (* :Keywords: *)
 (* :Discussion: *)
 
@@ -25,8 +25,8 @@ Needs["AntonAntonov`ReliabilityTools`"];
 ClearAll[IngestSeeqData];
 
 IngestSeeqData::nofile = "The file \"`1`\" does not exist";
-IngestSeeqData::nfrm = "Do not know how to process the 2nd argument (format specification.)";
-IngestSeeqData::nargs = "The first argument is expected to be a file object or a file name. " <>
+IngestSeeqData::nofrm = "Do not know how to process the 2nd argument (format specification.)";
+IngestSeeqData::noargs = "The first argument is expected to be a file object or a file name. " <>
     "The second argument is expected to be a format spec, one of Automatic, All, \"Dataset\" or \"TimeSeries\".";
 
 IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset"] :=
@@ -63,13 +63,13 @@ IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset"] :=
         |>,
 
         True,
-        Message[IngestSeeqData::nfrm];
+        Message[IngestSeeqData::nofrm];
         dsData
       ]
     ];
 
 IngestSeeqData[___] := (
-  Message[IngestSeeqData::nargs];
+  Message[IngestSeeqData::noargs];
   $Failed
 );
 
