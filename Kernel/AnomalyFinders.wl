@@ -81,6 +81,10 @@ Clear[SimpleAnomalyDetection];
 SimpleAnomalyDetection::noprop = "Do not know how to process the given property spec. " <>
     "The property spec can be Automatic, one on the strings `1`, or a list of those strings.";
 
+SimpleAnomalyDetection::noargs =
+    "The first and second arguments are expected to be lists of numbers. " <>
+        "The third argument is expected to be a property spec.";
+
 Options[SimpleAnomalyDetection] = {"OutlierIdentifier" -> "Hampel"};
 
 SimpleAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
@@ -117,6 +121,9 @@ SimpleAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, propAr
       If[AtomQ[propArg], res[[1]], res]
     ];
 
+SimpleAnomalyDetection[___] :=
+    (Message[SimpleAnomalyDetection::noargs]; $Failed);
+
 (********************************************************************)
 (* GNNMonAnomalyDetector                                            *)
 (********************************************************************)
@@ -133,6 +140,8 @@ Options[GNNMonAnomalyDetector] = {
 
 GNNMonAnomalyDetector::nowsize = "The value of the option \"WindowSize\" is expected to be a integer greater than 1.";
 GNNMonAnomalyDetector::nonns = "The value of the option \"NumberOfNearestNeighbors\" is expected to be a positive integer.";
+
+GNNMonAnomalyDetector::noargs = "The first argument is expected to be a list of numbers.";
 
 GNNMonAnomalyDetector[data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
     Block[{windowSize, distFunc, oi, aggFunc, nns, trainingData},
@@ -181,6 +190,9 @@ GNNMonAnomalyDetector[data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
         }
       ]
     ];
+
+GNNMonAnomalyDetector[___] :=
+    (Message[GNNMonAnomalyDetector::noargs]; $Failed);
 
 (********************************************************************)
 (* GNNMonAnomalyDetection                                           *)
