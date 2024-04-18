@@ -3,6 +3,7 @@
 
 (*BeginTestSection["IngestSeeqData-unit-tests.wlt"];*)
 
+pObj = PacletObject["AntonAntonov/ReliabilityTools"];
 
 (* Test 1 *)
 VerificationTest[
@@ -13,6 +14,14 @@ VerificationTest[
 ];
 
 (* Test 2 *)
+VerificationTest[
+  fileName = FileNameJoin[{pObj["Location"], "Resources", "SeeqFakeSample.xlsx"}];
+  FileExistsQ[fileName],
+  True,
+  TestID -> "Test-Seeq-file-found"
+];
+
+(* Test 3 *)
 VerificationTest[
   IngestSeeqData[3],
   $Failed,
