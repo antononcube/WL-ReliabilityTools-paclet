@@ -29,8 +29,8 @@ IngestSeeqData::nofrm = "Do not know how to process the 2nd argument (format spe
 IngestSeeqData::noargs = "The first argument is expected to be a file object or a file name. " <>
     "The second argument is expected to be a format spec, one of Automatic, All, \"Dataset\" or \"TimeSeries\".";
 
-IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset"] :=
-    Block[{form = formArg, lsSheets, dsData},
+IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset", fileType_ : Automatic] :=
+    Block[{form = formArg, lsSheets, dsData, infoSheet},
 
       If[MemberQ[{Automatic, TimeSeries, TemporalData}, form],
         form = "TimeSeries";
@@ -41,11 +41,13 @@ IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset"] :=
         Return[$Failed];
       ];
 
-      lsSheets = Import[fileName];
+      lsSheets = Import[fileName, fileType];
 
-      dsData =
-          Dataset[Rest@Last[lsSheets]][All,
-            AssociationThread[First@Last[lsSheets], #] &];
+      dsData = Last[lsSheets];
+      (* dsData = DeleteCases[dsData,List["",""]];*)
+      dsData = Dataset[Rest@dsData][All, AssociationThread[First@dsData, #] &];
+
+      infoSheet = DeleteCases[Map[DeleteCases[#,""]&,lsSheets[[1]]],{}];
 
       Which[
         TrueQ[form == "TimeSeries"],
@@ -56,7 +58,7 @@ IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset"] :=
 
         SameQ[All, form],
         <|
-          "Information" -> KeyMap[StringReplace[StringTrim[#], ":" ~~ EndOfString -> ""] &, Association[Rule @@@ lsSheets[[1]]]],
+          "Information" -> KeyMap[StringReplace[StringTrim[#], ":" ~~ EndOfString -> ""] &, Association[Rule @@@ infoSheet]],
           "Items" -> AssociationThread @@ lsSheets[[2]],
           "Statistics" -> AssociationThread @@ lsSheets[[3]],
           "Samples" -> dsData
