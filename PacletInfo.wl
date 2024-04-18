@@ -32,6 +32,14 @@ PacletObject[
         "Documentation",
         "Root" -> "Documentation",
         "Language" -> "English"
+      },
+      {
+        "Resource",
+        "Root" -> "Resources",
+        "Resources" ->
+            {
+              {"Resource", "SeeqFakeSample.xlsx"}
+            }
       }
     }
   |>
