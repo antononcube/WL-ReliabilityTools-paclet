@@ -38,6 +38,7 @@ PacletObject[
         "Root" -> "Resources",
         "Resources" ->
             {
+              {"Resource", "sample.xml"},
               {"Resource", "SeeqFakeSample.xlsx"}
             }
       }
