@@ -24,10 +24,13 @@ Needs["AntonAntonov`ReliabilityTools`"];
 
 ClearAll[IngestSeeqData];
 
+SyntaxInformation[IngestXMLData] = { "ArgumentsPattern" -> { _, _., _. } };
+
 IngestSeeqData::nofile = "The file \"`1`\" does not exist";
 IngestSeeqData::nofrm = "Do not know how to process the 2nd argument (format specification.)";
 IngestSeeqData::noargs = "The first argument is expected to be a file object or a file name. " <>
-    "The second argument is expected to be a format spec, one of Automatic, All, \"Dataset\" or \"TimeSeries\".";
+    "The second argument is expected to be a format spec, one of Automatic, All, \"Dataset\" or \"TimeSeries\". " <>
+        "The third argument is expected to be file type spec (for Import).";
 
 IngestSeeqData[fileName : (_String | _File), formArg_ : "Dataset", fileType_ : Automatic] :=
     Block[{form = formArg, lsSheets, dsData, infoSheet},
@@ -93,6 +96,10 @@ GetXMLRecord[xmlData_] :=
 
 Clear[IngestXMLData];
 
+SyntaxInformation[IngestXMLData] = { "ArgumentsPattern" -> { _ } };
+
+IngestXMLData::noargs = "The first argument is expected to be a file object, a file name, or a URL.";
+
 IngestXMLData[fileName : (_?StringQ | _File | _URL)] :=
     Module[{data},
       data = Import[fileName, "XML"];
@@ -110,6 +117,11 @@ IngestXMLData[data_] :=
       dsRecords[All, Join[ToExpression /@ KeyDrop[#, "timestamp"], <|"DateObject" -> DateObject[#timestamp]|>]&]
 
     ] /; MatchQ[data, XMLObject[__][___]];
+
+IngestXMLData[___] := (
+  Message[IngestXMLData::noargs];
+  $Failed
+);
 
 End[]; (* `Private` *)
 
