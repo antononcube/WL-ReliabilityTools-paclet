@@ -78,6 +78,8 @@ AnomalyPropSpecQ[_] := False;
 
 Clear[SimpleAnomalyDetection];
 
+SyntaxInformation[SimpleAnomalyDetection] = { "ArgumentsPattern" -> { _, _, _., OptionsPattern[] } };
+
 SimpleAnomalyDetection::noprop = "Do not know how to process the given property spec. " <>
     "The property spec can be Automatic, one on the strings `1`, or a list of those strings.";
 
@@ -129,6 +131,8 @@ SimpleAnomalyDetection[___] :=
 (********************************************************************)
 
 Clear[GNNMonAnomalyDetector];
+
+SyntaxInformation[GNNMonAnomalyDetector] = { "ArgumentsPattern" -> { _, OptionsPattern[] } };
 
 Options[GNNMonAnomalyDetector] = {
   WindowSize -> 8,
@@ -200,6 +204,8 @@ GNNMonAnomalyDetector[___] :=
 
 Clear[GNNMonAnomalyDetection];
 
+SyntaxInformation[GNNMonAnomalyDetection] = { "ArgumentsPattern" -> { _, _., _., OptionsPattern[] } };
+
 GNNMonAnomalyDetection::noprop = SimpleAnomalyDetection::noprop;
 
 GNNMonAnomalyDetection::noargs =
@@ -218,7 +224,7 @@ GNNMonAnomalyDetection[training : {_?NumericQ ..}, prop_?AnomalyPropSpecQ, opts 
 GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, opts : OptionsPattern[]] :=
     GNNMonAnomalyDetection[training, new, "Anomalies", opts];
 
-GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop__?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
+GNNMonAnomalyDetection[training : {_?NumericQ ..}, new : {_?NumericQ ..}, prop_?AnomalyPropSpecQ, opts : OptionsPattern[]] :=
     Block[{gnnObj},
       gnnObj = GNNMonAnomalyDetector[training, opts];
       GNNMonAnomalyDetection[gnnObj, new, prop, opts]
@@ -285,11 +291,16 @@ ProcessMethodSpec[spec_] :=
 
 Clear[AnomalyFinder];
 
+SyntaxInformation[AnomalyFinder] = { "ArgumentsPattern" -> { _, _., _., OptionsPattern[] } };
+
 AnomalyFinder::noargs =
     "The first two arguments are expected to be lists of numbers. " <>
         "The third optional argument is expected to be a property spec.";
 
 AnomalyFinder::nomspec = "Do not know how to process the method spec.";
+
+AnomalyFinder::nometh = "Unknown method specification. The value of the option Method is expected to be one of: " <>
+    "Automatic, \"SimpleAnomalyDetection\" (\"Simple\"), or \"GNNMonAnomalyDetection\" (\"GNNMon\").";
 
 Options[AnomalyFinder] = {Method -> Automatic, "OutlierIdentifier" -> "Hampel"};
 

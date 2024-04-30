@@ -39,6 +39,9 @@ chiSq[list_List] :=
     ];
 
 Clear[CrowAMSAAForecast];
+
+SyntaxInformation[CrowAMSAAForecast] = { "ArgumentsPattern" -> { _ } };
+
 CrowAMSAAForecast[list : { _?NumericQ .. }] :=
     CrowAMSAAForecast[Transpose[{Range[Length[list]], list}]];
 
