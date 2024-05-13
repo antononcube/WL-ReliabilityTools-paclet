@@ -346,7 +346,9 @@ AnomalyFinder[{training : {_?NumericQ ..}, new : {_?NumericQ ..}}, prop_?Anomaly
         MemberQ[{"Simple", "SimpleAnomalyDetection", "1D", "1DOutliers"}, method],
         SimpleAnomalyDetection[training, new, prop, FilterRules[opts2, Options[SimpleAnomalyDetection]]],
 
-        True, $Failed
+        True,
+        Message[AnomalyFinder::nometh];
+        $Failed
       ]
     ];
 
