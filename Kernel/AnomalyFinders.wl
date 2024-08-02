@@ -13,6 +13,7 @@ Begin["`Private`"];
 Needs["AntonAntonov`ReliabilityTools`"];
 Needs["AntonAntonov`OutlierIdentifiers`"];
 Needs["AntonAntonov`MonadicGeometricNearestNeighbors`"];
+Needs["AntonAntonov`MonadicQuantileRegression`"];
 
 
 (********************************************************************)
@@ -284,6 +285,80 @@ ProcessMethodSpec[spec_] :=
         $Failed
       ]
     ];
+
+
+(********************************************************************)
+(* QRMonAnomalyDetector                                            *)
+(********************************************************************)
+
+Clear[QRMonAnomalyDetector];
+
+SyntaxInformation[QRMonAnomalyDetector] = { "ArgumentsPattern" -> { _, OptionsPattern[] } };
+
+Options[QRMonAnomalyDetector] = {
+  WindowSize -> 8,
+  "OutlierIdentifier" -> "Hampel",
+  DistanceFunction -> EuclideanDistance,
+  "AggregationFunction" -> Mean,
+  "NumberOfNearestNeighbors" -> 10
+};
+
+QRMonAnomalyDetector::nowsize = "The value of the option \"WindowSize\" is expected to be a integer greater than 1.";
+QRMonAnomalyDetector::nonns = "The value of the option \"NumberOfNearestNeighbors\" is expected to be a positive integer.";
+
+QRMonAnomalyDetector::noargs = "The first argument is expected to be a list of numbers.";
+
+QRMonAnomalyDetector[data : {_?NumericQ ..}, opts : OptionsPattern[]] :=
+    Block[{windowSize, distFunc, oi, aggFunc, nns, trainingData},
+
+      (*Window size*)
+      windowSize = OptionValue[QRMonAnomalyDetector, WindowSize];
+      If[ TrueQ[windowSize === Automatic], distFunc = 10 ];
+
+      If[ !(IntegerQ[windowSize] && windowSize > 1),
+        Message[QRMonAnomalyDetector::nowsize];
+        Return[$Failed];
+      ];
+
+      (*Distance function*)
+      distFunc = OptionValue[QRMonAnomalyDetector, DistanceFunction];
+      If[ TrueQ[distFunc === Automatic], distFunc = EuclideanDistance ];
+
+      (*Outlier identifier*)
+      oi = OptionValue[QRMonAnomalyDetector, "OutlierIdentifier"];
+      If[ TrueQ[oi === Automatic], oi = "Hampel" ];
+      oi = oi /. aNameToParamFinder;
+
+
+      (*Aggregation function*)
+      aggFunc = OptionValue[QRMonAnomalyDetector, "AggregationFunction"];
+
+      (*Nearest neighbors*)
+      nns = OptionValue[QRMonAnomalyDetector, "NumberOfNearestNeighbors"];
+
+      If[ !(IntegerQ[nns] && nns > 0),
+        Message[QRMonAnomalyDetector::nonns];
+        Return[$Failed];
+      ];
+
+      (* Partition *)
+      trainingData = Partition[data, windowSize, 1];
+
+      (*Pipeline*)
+      Fold[
+        QRMonBind,
+        QRMonUnit[trainingData],
+        {
+          GNNMonMakeNearestFunction[DistanceFunction -> distFunc],
+          GNNMonComputeThresholds[nns, "AggregationFunction" -> aggFunc, "OutlierIdentifier" -> oi],
+          GNNMonAddToContext[<|"windowSize" -> windowSize|>]
+        }
+      ]
+    ];
+
+QRMonAnomalyDetector[___] :=
+    (Message[QRMonAnomalyDetector::noargs]; $Failed);
+
 
 (********************************************************************)
 (* AnomalyFinder                                                    *)
