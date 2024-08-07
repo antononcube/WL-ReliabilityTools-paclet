@@ -82,7 +82,7 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
               ];
 
           If[method == "ByRegressionQuantiles",
-            foundOutliersPos = Flatten[Map[Position[QRMonBind[qrObj, QRMonTakeData], #] &, Join @@ Values[foundOutliers]]];
+            foundOutliersPos = Flatten[Map[Position[QRMonBind[qrObj, QRMonTakeData], #] &, Quiet[Join @@ Values[foundOutliers]]]];
             gr21 =
                 Fold[
                   QRMonBind,
@@ -91,10 +91,16 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
                     QRMonOutliersPlot["DateListPlot" -> Not[rescaleQ], "Echo" -> False, Sequence @@ opts],
                     QRMonTakeValue
                   }];
-            {gr12, gr22} =
-                Values@Fold[QRMonBind,
-                  qrObj, {QRMonErrorPlots["Echo" -> False,
-                    "RelativeErrors" -> False, Sequence @@ opts], QRMonTakeValue}],
+            Quiet[
+              {gr12, gr22} = Values @
+                  Fold[
+                    QRMonBind,
+                    qrObj,
+                    {
+                      QRMonErrorPlots["Echo" -> False, "RelativeErrors" -> False, Sequence @@ opts],
+                      QRMonTakeValue
+                    }]
+            ],
 
             (*ELSE*)
 
