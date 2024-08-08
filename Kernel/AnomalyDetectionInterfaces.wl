@@ -12,7 +12,7 @@
 (* :Keywords: *)
 (* :Discussion: *)
 
-BeginPackage["AntonAntonov`ReliabilityTools`AnomalyDetectionInterface`"];
+BeginPackage["AntonAntonov`ReliabilityTools`AnomalyDetectionInterfaces`"];
 (* Exported symbols added here with SymbolName::usage *)
 
 Begin["`Private`"];
@@ -21,7 +21,7 @@ Needs["AntonAntonov`ReliabilityTools`"];
 Needs["AntonAntonov`MonadicQuantileRegression`"];
 Needs["AntonAntonov`OutlierIdentifiers`"];
 
-ClearAll[AnomalyDetectionInterface];
+Clear[AnomalyDetectionInterface];
 
 Options[AnomalyDetectionInterface] = {AspectRatio -> 1 / 3, ImageSize -> 800};
 
