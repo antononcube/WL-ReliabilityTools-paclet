@@ -15,10 +15,9 @@
 BeginPackage["AntonAntonov`ReliabilityTools`AnomalyDetectionInterface`"];
 (* Exported symbols added here with SymbolName::usage *)
 
-AnomalyDetectionInterface::usage = "Make an anomaly detection interface for given time series data.";
-
 Begin["`Private`"];
 
+Needs["AntonAntonov`ReliabilityTools`"];
 Needs["AntonAntonov`MonadicQuantileRegression`"];
 Needs["AntonAntonov`OutlierIdentifiers`"];
 
@@ -35,14 +34,15 @@ aNameToParamFinder = <|
 AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :=
     With[{
       tsData = tsDataArg,
-      opts = FilterRules[Join[{optsArg}, Options[AnomalyDetectionInterface]], Options[DateListPlot]]
+      opts = FilterRules[Normal@Join[Association@Options[AnomalyDetectionInterface], Association@{optsArg}], Options[ListPlot]]
     },
       DynamicModule[{
         dataId, rescaleQ, method, knots, topProb, bottomProb, oi, re, th, thQ,
         data, foundOutliers, foundOutliersPos, qrObj,
         errsAbsolute, errsRelative, gr11, gr12, gr21, gr22,
-        monPlotFunc = QRMonDateListPlot, plotFunc = DateListPlot},
+        monPlotFunc = QRMonDateListPlot, plotFunc = DateListPlot, imgSize},
 
+        imgSize = ImageSize /. {opts} /. Options[AnomalyDetectionInterface];
         Manipulate[
 
           data = tsData[dataId];
@@ -59,8 +59,11 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
           If[method == "ByRegressionQuantiles",
             qrObj =
                 Fold[QRMonBind,
-                  qrObj, {QRMonQuantileRegression[knots, {bottomProb, topProb}],
-                  QRMonOutliers[]}]
+                  qrObj,
+                  {
+                    QRMonQuantileRegression[knots, {bottomProb, topProb}],
+                    QRMonOutliers[]
+                  }]
             ,
             (*ELSE*)
             qrObj =
@@ -77,7 +80,7 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
               Fold[QRMonBind,
                 qrObj,
                 {
-                  monPlotFunc[Sequence @@ opts, "Echo" -> False, PerformanceGoal -> "Speed"],
+                  monPlotFunc["Echo" -> False, PerformanceGoal -> "Speed", Sequence @@ opts],
                   QRMonTakeValue}
               ];
 
@@ -104,9 +107,7 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
 
             (*ELSE*)
 
-            foundOutliersPos =
-                Flatten[Position[QRMonBind[qrObj, QRMonTakeData], #] & /@
-                    foundOutliers];
+            foundOutliersPos = Flatten[Position[QRMonBind[qrObj, QRMonTakeData], #] & /@ foundOutliers];
             errsAbsolute =
                 First[Fold[
                   QRMonBind,
@@ -140,9 +141,9 @@ AnomalyDetectionInterface[tsDataArg_?AssociationQ, optsArg : OptionsPattern[]] :
           Grid[{
             {gr11, gr12},
             {gr21, gr22},
-            {Panel@ Pane[foundOutliers, ImageSize -> {1200, 100}, Scrollbars -> {True, True}], SpanFromLeft}
+            {Panel@ Pane[foundOutliers, ImageSize -> {Round[imgSize * 3 / 2], 100}, Scrollbars -> {True, True}], SpanFromLeft}
           }],
-          {{dataId, "Financial", "Data:"}, {"Financial", "Temperature"}},
+          {{dataId, Keys[tsData][[1]], "Data:"}, Keys[tsData]},
           {{rescaleQ, False, "Rescale?:"}, {True, False}},
           {{knots, 12, "Knots:"}, 2, 100, 1, Appearance -> "Open"},
           Delimiter,
