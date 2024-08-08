@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Anton Antonov",
     "License" -> "MIT",
     "PublisherID" -> "AntonAntonov",
-    "Version" -> "1.0.0",
+    "Version" -> "1.0.1",
     "WolframVersion" -> "13+",
     "PrimaryContext" -> "AntonAntonov`ReliabilityTools`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
@@ -17,15 +17,16 @@ PacletObject[
         "Root" -> "Kernel",
         "Context" -> {"AntonAntonov`ReliabilityTools`"},
         "Symbols" -> {
+          "AntonAntonov`ReliabilityTools`AnomalyDetectionInterface",
           "AntonAntonov`ReliabilityTools`AnomalyFinder",
           "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
-          "AntonAntonov`ReliabilityTools`GetTrainingWindow",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
+          "AntonAntonov`ReliabilityTools`GetTrainingWindow",
           "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
-          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection",
           "AntonAntonov`ReliabilityTools`IngestSeeqData",
-          "AntonAntonov`ReliabilityTools`IngestXMLData"
+          "AntonAntonov`ReliabilityTools`IngestXMLData",
+          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection"
         }
       },
       {
