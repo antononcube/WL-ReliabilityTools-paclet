@@ -14,6 +14,7 @@ SimpleAnomalyDetection::usage = "Anomaly detection with 1D outlier identifiers."
 AnomalyFinder::usage = "Overall anomaly detection function.";
 IngestSeeqData::usage = "Ingesting Seeq data from different sources into different formats.";
 IngestXMLData::usage = "Ingesting XML data into a dataset.";
+AnomalyDetectionInterface::usage = "Make an anomaly detection interface for given time series data.";
 
 PacletInstall["AntonAntonov/OutlierIdentifiers", AllowVersionUpdate -> False];
 PacletInstall["AntonAntonov/MonadicGeometricNearestNeighbors", AllowVersionUpdate -> False];
