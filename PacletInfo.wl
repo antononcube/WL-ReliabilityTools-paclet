@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Anton Antonov",
     "License" -> "MIT",
     "PublisherID" -> "AntonAntonov",
-    "Version" -> "1.0.1",
+    "Version" -> "1.0.2",
     "WolframVersion" -> "13+",
     "PrimaryContext" -> "AntonAntonov`ReliabilityTools`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
@@ -20,13 +20,15 @@ PacletObject[
           "AntonAntonov`ReliabilityTools`AnomalyDetectionInterface",
           "AntonAntonov`ReliabilityTools`AnomalyFinder",
           "AntonAntonov`ReliabilityTools`CrowAMSAAForecast",
+          "AntonAntonov`ReliabilityTools`GetTrainingWindow",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetection",
           "AntonAntonov`ReliabilityTools`GNNMonAnomalyDetector",
-          "AntonAntonov`ReliabilityTools`GetTrainingWindow",
           "AntonAntonov`ReliabilityTools`GrowthTrackingPlot",
           "AntonAntonov`ReliabilityTools`IngestSeeqData",
           "AntonAntonov`ReliabilityTools`IngestXMLData",
-          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection"
+          "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection",
+          "AntonAntonov`ReliabilityTools`WeibullReliabilityModel",
+          "AntonAntonov`ReliabilityTools`WeibullReliabilityPlot"
         }
       },
       {
@@ -37,11 +39,10 @@ PacletObject[
       {
         "Resource",
         "Root" -> "Resources",
-        "Resources" ->
-            {
-              {"Resource", "sample.xml"},
-              {"Resource", "SeeqFakeSample.xlsx"}
-            }
+        "Resources" -> {
+          {"Resource", "sample.xml"},
+          {"Resource", "SeeqFakeSample.xlsx"}
+        }
       }
     }
   |>

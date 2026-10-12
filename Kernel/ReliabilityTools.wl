@@ -15,6 +15,8 @@ GrowthTrackingPlot::usage = "Growth tracking plot for a given list of counts.";
 IngestSeeqData::usage = "Ingesting Seeq data from different sources into different formats.";
 IngestXMLData::usage = "Ingesting XML data into a dataset.";
 SimpleAnomalyDetection::usage = "Anomaly detection with 1D outlier identifiers.";
+WeibullReliabilityModel::usage = "Weibull reliability model for given reliability (or production) data.";
+WeibullReliabilityPlot::usage = "Weibull (inverted) reliability plot.";
 
 PacletInstall["AntonAntonov/OutlierIdentifiers", AllowVersionUpdate -> False];
 PacletInstall["AntonAntonov/MonadicGeometricNearestNeighbors", AllowVersionUpdate -> False];
@@ -26,6 +28,7 @@ Needs["AntonAntonov`ReliabilityTools`AnomalyFinders`"];
 Needs["AntonAntonov`ReliabilityTools`CrowAMSAA`"];
 Needs["AntonAntonov`ReliabilityTools`DataIngestors`"];
 Needs["AntonAntonov`ReliabilityTools`GrowthTracking`"];
+Needs["AntonAntonov`ReliabilityTools`WeibullReliability`"];
 
 End[];
 EndPackage[];
