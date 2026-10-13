@@ -6,34 +6,20 @@ Begin["`Private`"];
 
 Needs["AntonAntonov`ReliabilityTools`"];
 
+(********************************************************)
+(* Weibull reliability model                            *)
+(********************************************************)
+
 ClearAll[WeibullReliabilityModel];
-WeibullReliabilityModel[___]:=(Echo["Not implemented yet."]; $Failed);
-
-
-ClearAll[WeibullReliabilityPlot];
-
-Options[WeibullReliabilityPlot]=Join[
-        {
-                "PointColor"->RGBColor[.1, .3, .7],
-                "FittedCurveColor"->RGBColor[.85,.2, .15],
-                PointSize->0.018,
-                "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
-                AxesLabel->Automatic
-        },
-        Options[Graphics]
-];
-
-WeibullReliabilityPlot[data_List,opts:OptionsPattern[]] := Module[
-    {times, n, probabilities, coords, x, y, a, beta, eta,
-     xmin, xmax, ymin, ymax,
-     pTicks, tTicks, pTrans, grid, axes, axesLabels, labels, fitLine, xMargin
-    },
+WeibullReliabilityModel[data_List] := Module[
+    {times, n, probabilities, coords, x, y, a, beta, eta},
 
     (*Sort failure times*)
     times = Sort[N[data]];
     n=Length[times];
-    If[n<3||!AllTrue[times,#>0&],
-    Return[$Failed]
+    If[n<3 || !AllTrue[times,#>0&],
+        Echo["The first argument is expected to be a list of three or more positive numbers."];
+        Return[$Failed]
     ];
 
     (*Bernard's median-rank approximation*)
@@ -48,6 +34,44 @@ WeibullReliabilityPlot[data_List,opts:OptionsPattern[]] := Module[
     (*Linear least-squares fit:y=a+beta x*)
     {a,beta}=LeastSquares[Transpose[{ConstantArray[1,n],x}],y];
     eta=Exp[-a/beta];
+
+    <| "times" -> times, "coords" -> coords, "a" -> a, "eta" -> eta, "beta" -> beta |>
+];
+
+(********************************************************)
+(* Weibull reliability plot                             *)
+(********************************************************)
+ClearAll[WeibullReliabilityPlot];
+
+Options[WeibullReliabilityPlot]=Join[
+        {
+                "PointColor"->RGBColor[.1, .3, .7],
+                "FittedCurveColor"->RGBColor[.85,.2, .15],
+                PointSize->0.018,
+                "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
+                AxesLabel->Automatic
+        },
+        Options[Graphics]
+];
+
+WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] := Module[
+    {times, coords, x, y, a, beta, eta,
+     xmin, xmax, ymin, ymax,
+     pTicks, tTicks, pTrans, grid, axes, axesLabels, labels, fitLine, xMargin
+    },
+
+    aRes = WeibullReliabilityModel[data];
+    times = aRes["times"];
+    coords = aRes["coords"];
+    a = aRes["a"];
+    eta = aRes["eta"];
+    beta = aRes["beta"];
+
+    x=coords[[All,1]];
+    y=coords[[All,2]];
+
+    (*Weibull coordinate transformation*)
+    pTrans[p_]:=Log[-Log[1-p]];
 
     (*Plot coordinate ranges*)
     xMargin=0.08*(Max[x]-Min[x]);
