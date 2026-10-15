@@ -5,20 +5,26 @@ BeginPackage["AntonAntonov`ReliabilityTools`WeibullReliability`"];
 Begin["`Private`"];
 
 Needs["AntonAntonov`ReliabilityTools`"];
+Needs["AntonAntonov`MonadicQuantileRegression`"];
 
 (********************************************************)
 (* Weibull reliability model                            *)
 (********************************************************)
 
 ClearAll[WeibullReliabilityModel];
-WeibullReliabilityModel[data_List] := Module[
-    {times, n, probabilities, coords, x, y, a, beta, eta},
+
+WeibullReliabilityModel::nargs = "The first argument is expected to be a list of three or more positive numbers.";
+
+Options[WeibullReliabilityModel] = {"Breaks" -> True, "Knots" -> 6};
+
+WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
+    {times, n, probabilities, coords, x, y, a, beta, eta, breaks, knots},
 
     (*Sort failure times*)
     times = Sort[N[data]];
     n=Length[times];
     If[n<3 || !AllTrue[times,#>0&],
-        Echo["The first argument is expected to be a list of three or more positive numbers."];
+        Message[WeibullReliabilityModel::nargs];
         Return[$Failed]
     ];
 
@@ -35,7 +41,37 @@ WeibullReliabilityModel[data_List] := Module[
     {a,beta}=LeastSquares[Transpose[{ConstantArray[1,n],x}],y];
     eta=Exp[-a/beta];
 
-    <| "times" -> times, "coords" -> coords, "a" -> a, "eta" -> eta, "beta" -> beta |>
+    (*Structural breaks*)
+    (*The paclet already depends/uses QRMon and the reliability data is relatively small.*)
+    breaks = None;
+    qrObj = None;
+    If[TrueQ @ OptionValue[WeibullReliabilityModel, "Breaks"],
+        
+        (* Delegating possible error to QRMon **)
+        knots = OptionValue[WeibullReliabilityModel, "Knots"];
+
+        qrObj =
+        Fold[
+            QRMonBind,
+            QRMonUnit[coords],
+            {
+                QRMonQuantileRegression[knots, 0.5],
+                QRMonFindStructuralBreaks[]
+            }
+        ];
+
+        (* Check for failure *)
+        breaks = If[QRMonUnitQ[qrObj], QRMonBind[qrObj, QRMonTakeValue], (*ELSE*) $Failed];
+    ];
+
+
+    <| 
+        "OriginalData" -> times, 
+        "Data" -> coords, 
+        "WeibullParameters" -> <| "a" -> a, "eta" -> eta, "beta" -> beta |>, 
+        "Breaks" -> breaks,
+        "QRMon" -> qrObj  
+    |>
 ];
 
 (********************************************************)
@@ -61,11 +97,11 @@ WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] := Module[
     },
 
     aRes = WeibullReliabilityModel[data];
-    times = aRes["times"];
-    coords = aRes["coords"];
-    a = aRes["a"];
-    eta = aRes["eta"];
-    beta = aRes["beta"];
+    times = aRes["OriginalData"];
+    coords = aRes["Data"];
+    a = aRes["WeibullParameters"]["a"];
+    eta = aRes["WeibullParameters"]["eta"];
+    beta = aRes["WeibullParameters"]["beta"];
 
     x=coords[[All,1]];
     y=coords[[All,2]];
