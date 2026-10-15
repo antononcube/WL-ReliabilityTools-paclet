@@ -11,6 +11,15 @@ Needs["AntonAntonov`MonadicQuantileRegression`"];
 (* Weibull reliability model                            *)
 (********************************************************)
 
+WeibullFit[coords:{{_?NumericQ, _?NumericQ}..}] := 
+    Module[{x, y},
+        x=coords[[All,1]];
+        y=coords[[All,2]];
+        {a,beta}=LeastSquares[Transpose[{ConstantArray[1, Length[x]],x}],y];
+        eta=Exp[-a/beta];
+        {a, beta, eta}
+    ];
+
 ClearAll[WeibullReliabilityModel];
 
 WeibullReliabilityModel::nargs = "The first argument is expected to be a list of three or more positive numbers.";
@@ -34,12 +43,9 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
     (*Weibull coordinate transformation*)
     pTrans[p_]:=Log[-Log[1-p]];
     coords=Transpose[{Log[times],pTrans/@probabilities}];
-    x=coords[[All,1]];
-    y=coords[[All,2]];
 
     (*Linear least-squares fit:y=a+beta x*)
-    {a,beta}=LeastSquares[Transpose[{ConstantArray[1,n],x}],y];
-    eta=Exp[-a/beta];
+    {a,beta,eta}=WeibullFit[coords];
 
     (*Structural breaks*)
     (*The paclet already depends/uses QRMon and the reliability data is relatively small.*)
@@ -64,6 +70,22 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
         breaks = If[QRMonUnitQ[qrObj], QRMonBind[qrObj, QRMonTakeValue], (*ELSE*) $Failed];
     ];
 
+    (*For every break find the top & bottom models*)
+    If[MatchQ[breaks, {{_?NumericQ, _?NumericQ} ..}],
+        breaks = Association @ Map[
+            Module[{sp = #[[1]], coords1, coords2},
+                coords1 = Select[coords, #[[1]] <= sp &]; 
+                coords2 = Select[coords, #[[1]] >= sp &];
+                # -> 
+                <|
+                    "Bottom" -> AssociationThread[{"a", "beta", "eta"}, WeibullFit[coords1]],
+                    "Top" -> AssociationThread[{"a", "beta", "eta"}, WeibullFit[coords2]] 
+                |>
+
+            ]&,
+            breaks
+        ]
+    ];
 
     <| 
         "OriginalData" -> times, 
