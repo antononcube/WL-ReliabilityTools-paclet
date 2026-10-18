@@ -91,8 +91,7 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
         "OriginalData" -> times, 
         "Data" -> coords, 
         "WeibullParameters" -> <| "a" -> a, "eta" -> eta, "beta" -> beta |>, 
-        "Breaks" -> breaks,
-        "QRMon" -> qrObj  
+        "Breaks" -> breaks 
     |>
 ];
 
@@ -105,6 +104,8 @@ Options[WeibullReliabilityPlot]=Join[
         {
                 "PointColor"->RGBColor[.1, .3, .7],
                 "FittedCurveColor"->RGBColor[.85,.2, .15],
+                "TopCurveColor"-> StandardBlue,
+                "BottomCurveColor"->Orange,
                 PointSize->0.018,
                 "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
                 AxesLabel->Automatic
@@ -112,18 +113,21 @@ Options[WeibullReliabilityPlot]=Join[
         Options[Graphics]
 ];
 
-WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] := Module[
+WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] :=
+    WeibullReliabilityPlot[WeibullReliabilityModel[data], opts];
+
+WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
     {times, coords, x, y, a, beta, eta,
      xmin, xmax, ymin, ymax,
-     pTicks, tTicks, pTrans, grid, axes, axesLabels, labels, fitLine, xMargin
+     pTicks, tTicks, pTrans, grid, axes, axesLabels, labels, fitLine, xMargin,
+     aBreaks, break, break2D, topLine, bottomLine
     },
 
-    aRes = WeibullReliabilityModel[data];
-    times = aRes["OriginalData"];
-    coords = aRes["Data"];
-    a = aRes["WeibullParameters"]["a"];
-    eta = aRes["WeibullParameters"]["eta"];
-    beta = aRes["WeibullParameters"]["beta"];
+    times = aModel["OriginalData"];
+    coords = aModel["Data"];
+    a = aModel["WeibullParameters"]["a"];
+    eta = aModel["WeibullParameters"]["eta"];
+    beta = aModel["WeibullParameters"]["beta"];
 
     x=coords[[All,1]];
     y=coords[[All,2]];
@@ -189,13 +193,40 @@ WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] := Module[
     (*Fitted Weibull straight line*)
     fitLine = {Directive[OptionValue[WeibullReliabilityPlot,"FittedCurveColor"], Thick],Line[{{xmin, a + beta xmin}, {xmax, a + beta xmax}}]};
 
-    Graphics[{grid, axes, fitLine,
+    aBreaks = KeySortBy[aModel["Breaks"], -#[[2]] &];
+    break = Keys[aBreaks][[1, 1]];
+  
+    topLine = {Directive[OptionValue[WeibullReliabilityPlot,"TopCurveColor"], Thick],
+        Line[{
+            {break, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * break}, 
+            {xmax,  aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmax}
+        }]};
+
+    bottomLine = {Directive[OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], Thick],
+        Line[{
+            {xmin,  aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * xmin},
+            {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break}
+        }]};    
+
+    break2D = {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break};
+
+    Graphics[{grid, axes, 
+        If[ColorQ[OptionValue[WeibullReliabilityPlot,"FittedCurveColor"]], fitLine, Nothing], 
         (*Observed data*)
         Directive[OptionValue[WeibullReliabilityPlot,"PointColor"], PointSize[OptionValue[WeibullReliabilityPlot,"PointSize"]]], Point[coords],
         (*Characteristic-life reference*)
-        Directive[LightDarkSwitched[GrayLevel[.4],GrayLevel[.6]], Dashed],Line[{{Log[eta], ymin}, {Log[eta], 0}}], labels,
+        Directive[LightDarkSwitched[GrayLevel[.4],GrayLevel[.6]], Dashed], Line[{{Log[eta], ymin}, {Log[eta], 0}}], labels,
         Text[OptionValue[WeibullReliabilityPlot,"Subtitle"], Offset[{0, 32}, {(xmin + xmax) / 2, ymax}]],
-        Text[Style[Row[{"\[Beta] = ", NumberForm[beta, {5, 3}], Spacer[10],"\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]]
+        Text[Style[Row[{"\[Beta] = ", NumberForm[beta, {5, 3}], Spacer[10],"\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],
+        Dashing[{}],
+        Tooltip[topLine, aBreaks[[1]]["Top"]], 
+        Tooltip[bottomLine, aBreaks[[1]]["Bottom"]],
+        {
+            Blend[{
+                OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], 
+                OptionValue[WeibullReliabilityPlot,"TopCurveColor"]
+            }],
+            PointSize[0.02], Tooltip[Point[break2D], break2D]}
       },
       FilterRules[{opts},Options[Graphics]],
       PlotRange -> {{xmin, xmax}, {ymin, ymax}},
