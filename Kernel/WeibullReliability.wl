@@ -103,7 +103,7 @@ ClearAll[WeibullReliabilityPlot];
 Options[WeibullReliabilityPlot]=Join[
         {
                 "PointColor"->RGBColor[.1, .3, .7],
-                "FittedCurveColor"->RGBColor[.85,.2, .15],
+                "FittedCurveColor"-> LightDarkSwitched[GrayLevel[0.7],GrayLevel[0.3]],
                 "TopCurveColor"-> StandardBlue,
                 "BottomCurveColor"->Orange,
                 PointSize->0.018,
@@ -216,8 +216,19 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
         Directive[OptionValue[WeibullReliabilityPlot,"PointColor"], PointSize[OptionValue[WeibullReliabilityPlot,"PointSize"]]], Point[coords],
         (*Characteristic-life reference*)
         Directive[LightDarkSwitched[GrayLevel[.4],GrayLevel[.6]], Dashed], Line[{{Log[eta], ymin}, {Log[eta], 0}}], labels,
-        Text[OptionValue[WeibullReliabilityPlot,"Subtitle"], Offset[{0, 32}, {(xmin + xmax) / 2, ymax}]],
-        Text[Style[Row[{"\[Beta] = ", NumberForm[beta, {5, 3}], Spacer[10],"\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],
+        Text[OptionValue[WeibullReliabilityPlot,"Subtitle"], Offset[{0, 60}, {(xmin + xmax) / 2, ymax}]],
+        Text[Style[Row[{
+            "Overall:", Spacer[10], 
+            "\[Beta] = ", NumberForm[beta, {5, 3}], Spacer[10], 
+            "\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 42}, {(xmin + xmax) / 2, ymax}]],
+        Text[Style[Row[{
+            "    Top:", Spacer[10], 
+            "\[Beta] = ", NumberForm[aBreaks[[1]]["Top"]["beta"], {5, 3}], Spacer[10], 
+            "\[Eta] = ", NumberForm[aBreaks[[1]]["Top"]["eta"], {8, 2}]}], 11], Offset[{0, 28}, {(xmin + xmax) / 2, ymax}]],
+        Text[Style[Row[{
+            "Bottom:", Spacer[10], 
+            "\[Beta] = ", NumberForm[aBreaks[[1]]["Bottom"]["beta"], {5, 3}], Spacer[10], 
+            "\[Eta] = ", NumberForm[aBreaks[[1]]["Bottom"]["eta"], {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],            
         Dashing[{}],
         Tooltip[topLine, aBreaks[[1]]["Top"]], 
         Tooltip[bottomLine, aBreaks[[1]]["Bottom"]],
@@ -231,7 +242,7 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
       FilterRules[{opts},Options[Graphics]],
       PlotRange -> {{xmin, xmax}, {ymin, ymax}},
       PlotRangeClipping -> False,
-      ImagePadding-> {{105, 35}, {85, 65}},
+      ImagePadding-> {{105, 35}, {85, 95}},
       ImageSize -> 700,
       AspectRatio->1/GoldenRatio,
       Background -> LightDarkSwitched[White,GrayLevel[0.1]]
