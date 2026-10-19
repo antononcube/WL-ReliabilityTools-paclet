@@ -17,6 +17,7 @@ IngestXMLData::usage = "Ingesting XML data into a dataset.";
 SimpleAnomalyDetection::usage = "Anomaly detection with 1D outlier identifiers.";
 WeibullReliabilityModel::usage = "Weibull reliability model for given reliability (or production) data.";
 WeibullReliabilityPlot::usage = "Weibull (inverted) reliability plot.";
+ReliabilityModel::usage = "Reliability model object.";
 
 PacletInstall["AntonAntonov/OutlierIdentifiers", AllowVersionUpdate -> False];
 PacletInstall["AntonAntonov/MonadicGeometricNearestNeighbors", AllowVersionUpdate -> False];

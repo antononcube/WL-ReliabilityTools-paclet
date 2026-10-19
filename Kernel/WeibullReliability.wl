@@ -87,13 +87,30 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
         ]
     ];
 
-    <| 
+    ReliabilityModel @ <| 
         "OriginalData" -> times, 
         "Data" -> coords, 
         "WeibullParameters" -> <| "a" -> a, "eta" -> eta, "beta" -> beta |>, 
         "Breaks" -> breaks 
     |>
 ];
+
+(********************************************************)
+(* Reliability model.                                   *)
+(********************************************************)
+
+Clear[ReliabilityModel];
+
+ReliabilityModel[a_?AssociationQ]["Properties"] :=
+    {"Association", "OriginalData", "Data", "WeibullParameters", "Breaks", "Properties", "MaxBreakPoint"};
+ReliabilityModel[a_?AssociationQ]["MaxBreakPoint"] := 
+    Module[{aBreaks, break},
+        aBreaks = KeySortBy[a["Breaks"], -#[[2]] &];
+        break = Keys[aBreaks][[1, 1]];
+        {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break}
+    ];
+ReliabilityModel[a_?AssociationQ]["Association"] := a;
+ReliabilityModel[a_?AssociationQ][key_?StringQ] := Lookup[a, key];
 
 (********************************************************)
 (* Weibull reliability plot                             *)
@@ -103,9 +120,10 @@ ClearAll[WeibullReliabilityPlot];
 Options[WeibullReliabilityPlot]=Join[
         {
                 "PointColor"->RGBColor[.1, .3, .7],
-                "FittedCurveColor"-> LightDarkSwitched[GrayLevel[0.7],GrayLevel[0.3]],
+                "FittedCurveColor"-> None,
                 "TopCurveColor"-> StandardBlue,
                 "BottomCurveColor"->Orange,
+                "BreakPointColor"->Red,
                 PointSize->0.018,
                 "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
                 AxesLabel->Automatic
@@ -116,13 +134,16 @@ Options[WeibullReliabilityPlot]=Join[
 WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] :=
     WeibullReliabilityPlot[WeibullReliabilityModel[data], opts];
 
-WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
-    {times, coords, x, y, a, beta, eta,
+WeibullReliabilityPlot::naxlbl = "Cannot process the value given to AxesLabel.";
+
+WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
+    {aModel, times, coords, x, y, a, beta, eta,
      xmin, xmax, ymin, ymax,
-     pTicks, tTicks, pTrans, grid, axes, axesLabels, labels, fitLine, xMargin,
+     pTicks, tTicks, pTrans, fittedCurveColor, grid, axes, axesLabels, labels, fitLine, xMargin,
      aBreaks, break, break2D, topLine, bottomLine
     },
 
+    aModel = rmObj["Association"];
     times = aModel["OriginalData"];
     coords = aModel["Data"];
     a = aModel["WeibullParameters"]["a"];
@@ -175,7 +196,7 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
         {Style["Time to failure", 13],Style["Cumulative failure (%)", 13]},
 
         True,
-        Echo["Cannot process the value given to AxesLabel."];
+        Message[WeibullReliabilityPlot::naxlbl];
         Return[$Failed]
     ];
 
@@ -191,14 +212,21 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
     };
 
     (*Fitted Weibull straight line*)
-    fitLine = {Directive[OptionValue[WeibullReliabilityPlot,"FittedCurveColor"], Thick],Line[{{xmin, a + beta xmin}, {xmax, a + beta xmax}}]};
+    fittedCurveColor = OptionValue[WeibullReliabilityPlot,"FittedCurveColor"];
+    fittedCurveColor = 
+        Which[
+            ColorQ[fittedCurveColor], fittedCurveColor, 
+            TrueQ[fittedCurveColor===Automatic], LightDarkSwitched[GrayLevel[0.7],GrayLevel[0.3]], 
+            True, None
+        ];
+    fitLine = {Directive[fittedCurveColor, Thick], Line[{{xmin, a + beta xmin}, {xmax, a + beta xmax}}]};
 
     aBreaks = KeySortBy[aModel["Breaks"], -#[[2]] &];
     break = Keys[aBreaks][[1, 1]];
   
     topLine = {Directive[OptionValue[WeibullReliabilityPlot,"TopCurveColor"], Thick],
         Line[{
-            {break, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * break}, 
+            {xmin, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmin}, 
             {xmax,  aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmax}
         }]};
 
@@ -210,10 +238,16 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
 
     break2D = {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break};
 
-    Graphics[{grid, axes, 
-        If[ColorQ[OptionValue[WeibullReliabilityPlot,"FittedCurveColor"]], fitLine, Nothing], 
+    Graphics[{
+        (*Grid and axes*)
+        grid, axes,
+
+        (*Fitted curve*) 
+        If[ColorQ[fittedCurveColor] || TrueQ[Head[fittedCurveColor] === LightDarkSwitched], fitLine,  Nothing],
+
         (*Observed data*)
         Directive[OptionValue[WeibullReliabilityPlot,"PointColor"], PointSize[OptionValue[WeibullReliabilityPlot,"PointSize"]]], Point[coords],
+
         (*Characteristic-life reference*)
         Directive[LightDarkSwitched[GrayLevel[.4],GrayLevel[.6]], Dashed], Line[{{Log[eta], ymin}, {Log[eta], 0}}], labels,
         Text[OptionValue[WeibullReliabilityPlot,"Subtitle"], Offset[{0, 60}, {(xmin + xmax) / 2, ymax}]],
@@ -233,11 +267,9 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
         Tooltip[topLine, aBreaks[[1]]["Top"]], 
         Tooltip[bottomLine, aBreaks[[1]]["Bottom"]],
         {
-            Blend[{
-                OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], 
-                OptionValue[WeibullReliabilityPlot,"TopCurveColor"]
-            }],
-            PointSize[0.02], Tooltip[Point[break2D], break2D]}
+            OptionValue[WeibullReliabilityPlot,"BreakPointColor"], 
+            PointSize[0.02], Tooltip[Point[break2D], break2D]
+        }
       },
       FilterRules[{opts},Options[Graphics]],
       PlotRange -> {{xmin, xmax}, {ymin, ymax}},
@@ -248,6 +280,45 @@ WeibullReliabilityPlot[aModel_?AssociationQ, opts:OptionsPattern[]] := Module[
       Background -> LightDarkSwitched[White,GrayLevel[0.1]]
     ]
 ];
+
+(*=========================================================*)
+(* Summary Box                                             *)
+(*=========================================================*)
+
+ReliabilityModel /: MakeBoxes[obj_ReliabilityModel, form : StandardForm] :=
+    Block[{ctx = First[obj], above, below},
+      
+      (* 1. Construct the Always Visible Items *)
+      above = If[KeyExistsQ[ctx, "Data"],
+        {BoxForm`SummaryItem[{"Data dimensions: ", Dimensions[ctx["Data"]]}]},
+        {BoxForm`SummaryItem[{"No data"}]}
+      ];
+      
+      (* 2. Construct the Hidden/Expanded Items *)
+      below = DeleteCases[Flatten[{
+        If[KeyExistsQ[ctx, "WeibullParameters"],
+          BoxForm`SummaryItem[{"Weibull parameters: ", ctx["WeibullParameters"]}],
+          Nothing
+        ],
+        If[KeyExistsQ[ctx, "OriginalData"],
+          BoxForm`SummaryItem[{"OriginalData dimensions: ", Dimensions[ctx["OriginalData"]]}] ,
+          Nothing
+        ],
+        If[KeyExistsQ[ctx, "Breaks"],
+          BoxForm`SummaryItem[{"Breaks: ", Dataset@ctx["Breaks"]}],
+          Nothing
+        ]
+      }], Nothing];
+
+      (* 3. Arrange and return valid boxes *)
+      BoxForm`ArrangeSummaryBox[
+        ReliabilityModel, obj, None, 
+        above, below, 
+        form, 
+        "Interpretable" -> Automatic
+      ]
+    ];
+
 
 End[]; (* `Private` *)
 
