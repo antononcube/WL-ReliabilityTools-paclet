@@ -28,7 +28,8 @@ PacletObject[
           "AntonAntonov`ReliabilityTools`IngestXMLData",
           "AntonAntonov`ReliabilityTools`SimpleAnomalyDetection",
           "AntonAntonov`ReliabilityTools`WeibullReliabilityModel",
-          "AntonAntonov`ReliabilityTools`WeibullReliabilityPlot"
+          "AntonAntonov`ReliabilityTools`WeibullReliabilityPlot",
+          "AntonAntonov`ReliabilityTools`ReliabilityModel"
         }
       },
       {
