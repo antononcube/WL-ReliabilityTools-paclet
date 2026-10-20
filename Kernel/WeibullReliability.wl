@@ -109,6 +109,15 @@ ReliabilityModel[a_?AssociationQ]["MaxBreakPoint"] :=
         break = Keys[aBreaks][[1, 1]];
         {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break}
     ];
+ReliabilityModel[a_?AssociationQ]["BreakPoint"[index_?IntegerQ]] := 
+    Module[{aBreaks, break},
+        (* Sorting just in case *)
+        aBreaks = KeySortBy[a["Breaks"], #[[1]] &];
+        break = Keys[aBreaks][[index, 1]];
+        {break, aBreaks[[index]]["Bottom"]["a"] + aBreaks[[index]]["Bottom"]["beta"] * break}
+    ] /; 1 <= index <= Length[a["Breaks"]] || -Length[a["Breaks"]]-1 <= index <= -1;
+ReliabilityModel[a_?AssociationQ]["FirstBreakPoint"] := ReliabilityModel[a]["BreakPoint"[1]];    
+ReliabilityModel[a_?AssociationQ]["LastBreakPoint"] := ReliabilityModel[a]["BreakPoint"[-1]];   
 ReliabilityModel[a_?AssociationQ]["Association"] := a;
 ReliabilityModel[a_?AssociationQ][key_?StringQ] := Lookup[a, key];
 
@@ -234,13 +243,18 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
         ];
     fitLine = {Directive[fittedCurveColor, Thick], Line[{{xmin, a + beta xmin}, {xmax, a + beta xmax}}]};
 
+    (*
+        With this sorting the code below takes the max Chow statistic point, 
+        but we, most likely, want to plot the last structural break.
+    *)
     aBreaks = KeySortBy[aModel["Breaks"], -#[[2]] &];
+    (*aBreaks = KeySortBy[aModel["Breaks"], #[[1]] &];*)
     break = Keys[aBreaks][[1, 1]];
   
     topLine = {Directive[OptionValue[WeibullReliabilityPlot,"TopCurveColor"], Thick],
         Line[{
             {xmin, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmin}, 
-            {xmax,  aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmax}
+            {xmax, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmax}
         }]};
 
     bottomLine = {Directive[OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], Thick],
