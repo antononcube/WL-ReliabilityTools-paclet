@@ -102,7 +102,7 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
 Clear[ReliabilityModel];
 
 ReliabilityModel[a_?AssociationQ]["Properties"] :=
-    {"Association", "OriginalData", "Data", "WeibullParameters", "Breaks", "Properties", "MaxBreakPoint"};
+    {"Association", "Breaks", "Data", "MaxBreakPoint", "OriginalData", "Properties", "WeibullParameters"};
 ReliabilityModel[a_?AssociationQ]["MaxBreakPoint"] := 
     Module[{aBreaks, break},
         aBreaks = KeySortBy[a["Breaks"], -#[[2]] &];
@@ -124,6 +124,7 @@ Options[WeibullReliabilityPlot]=Join[
                 "TopCurveColor"-> StandardBlue,
                 "BottomCurveColor"->Orange,
                 "BreakPointColor"->Red,
+                PlotTheme -> "Production",
                 PointSize->0.018,
                 "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
                 AxesLabel->Automatic
@@ -135,13 +136,21 @@ WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] :=
     WeibullReliabilityPlot[WeibullReliabilityModel[data], opts];
 
 WeibullReliabilityPlot::naxlbl = "Cannot process the value given to AxesLabel.";
+WeibullReliabilityPlot::nthe = "The value of the option PlotTheme is expected to be one of \"Production\", \"Failure\", or Automatic.";
 
 WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
-    {aModel, times, coords, x, y, a, beta, eta,
+    {theme, aModel, times, coords, x, y, a, beta, eta,
      xmin, xmax, ymin, ymax,
      pTicks, tTicks, pTrans, fittedCurveColor, grid, axes, axesLabels, labels, fitLine, xMargin,
      aBreaks, break, break2D, topLine, bottomLine
     },
+
+    theme = OptionValue[WeibullReliabilityPlot, PlotTheme];
+    If[TrueQ[theme === Automatic], theme = "Production"];
+    If[!MemberQ[{"Production", "Failure"}, theme],
+        Message[WeibullReliabilityPlot::nthe];
+        Return[$Failed]
+    ];
 
     aModel = rmObj["Association"];
     times = aModel["OriginalData"];
@@ -187,13 +196,17 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
     };
 
     (*Axis labels and probability tick labels*)
-    axesLabels=OptionValue[WeibullReliabilityPlot,AxesLabel];
+    axesLabels=OptionValue[WeibullReliabilityPlot, AxesLabel];
     axesLabels=Which[
+        
         ListQ[axesLabels]&&Length[axesLabels]>=2,
         OptionValue[WeibullReliabilityPlot,AxesLabel],
 
-        TrueQ[axesLabels===Automatic],
-        {Style["Time to failure", 13],Style["Cumulative failure (%)", 13]},
+        TrueQ[axesLabels === Automatic] && theme == "Production", 
+        {Style["Production output", 13], Style["Cumulative production (%)", 13]},
+
+        TrueQ[axesLabels === Automatic],
+        {Style["Time to failure", 13], Style["Cumulative failure (%)", 13]},
 
         True,
         Message[WeibullReliabilityPlot::naxlbl];
