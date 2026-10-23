@@ -27,10 +27,11 @@ WeibullReliabilityModel::nmrk = "The value of the option \"MedianRankMethod\" is
 
 Options[WeibullReliabilityModel] = 
     Join[ 
-        {"Breaks" -> True, "Knots" -> 10, "MedianRankMethod" -> "Bernard"},
-        Options[QRMonQuantileRegression],
-        DeleteCases[Options[QRMonFindLocalExtrema], "NumberOfProximityPoints" -> _],
-        {"NumberOfProximityPoints" -> Automatic}
+        {"Breaks" -> True, "MedianRankMethod" -> "Bernard"},
+        (*Options[QRMonQuantileRegression]*)
+        {"Knots" -> 10, "Probabilities" -> 0.5, Method -> Automatic, InterpolationOrder -> 3},
+        (*Options[QRMonFindLocalExtrema]*)
+        {"NearestWithOutliers" -> False, "NumberOfProximityPoints" -> Automatic}
     ];
 
 WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
