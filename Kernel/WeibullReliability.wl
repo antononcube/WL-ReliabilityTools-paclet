@@ -24,10 +24,16 @@ ClearAll[WeibullReliabilityModel];
 
 WeibullReliabilityModel::nargs = "The first argument is expected to be a list of three or more positive numbers.";
 
-Options[WeibullReliabilityModel] = {"Breaks" -> True, "Knots" -> 6};
+Options[WeibullReliabilityModel] = 
+    Join[ 
+        {"Breaks" -> True, "Knots" -> 10},
+        Options[QRMonQuantileRegression],
+        DeleteCases[Options[QRMonFindLocalExtrema], "NumberOfProximityPoints" -> _],
+        {"NumberOfProximityPoints" -> Automatic}
+    ];
 
 WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
-    {times, n, probabilities, coords, x, y, a, beta, eta, breaks, knots},
+    {times, n, probabilities, coords, a, beta, eta, breaks, opts2, nProxPoints},
 
     (*Sort failure times*)
     times = Sort[N[data]];
@@ -53,18 +59,23 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
     qrObj = None;
     If[TrueQ @ OptionValue[WeibullReliabilityModel, "Breaks"],
         
-        (* Delegating possible error to QRMon **)
-        knots = OptionValue[WeibullReliabilityModel, "Knots"];
-
+        (* 
+            Delegating possible option errors to QRMon.
+            QRMonFindStructuralBreaks uses:                             
+                (i) FilterRules[ {opts}, Options[QRMonQuantileRegression] ]
+                (ii) OptionValue[opts, "Knots"]; 
+        *)
+        nProxPoints = OptionValue[WeibullReliabilityModel, "NumberOfProximityPoints"];
+        If[TrueQ[nProxPoints === Automatic], nProxPoints = Max[Round[Length[data] * 0.06], 5]];
+        opts2 = Flatten @ Join[{"NumberOfProximityPoints" -> nProxPoints}, FilterRules[{opts}, Options[QRMonFindStructuralBreaks]]];
         qrObj =
-        Fold[
-            QRMonBind,
-            QRMonUnit[coords],
-            {
-                QRMonQuantileRegression[knots, 0.5],
-                QRMonFindStructuralBreaks[]
-            }
-        ];
+            Fold[
+                QRMonBind,
+                QRMonUnit[coords],
+                {
+                    QRMonFindStructuralBreaks[opts2]
+                }
+            ];
 
         (* Check for failure *)
         breaks = If[QRMonUnitQ[qrObj], QRMonBind[qrObj, QRMonTakeValue], (*ELSE*) $Failed];
@@ -133,6 +144,7 @@ Options[WeibullReliabilityPlot]=Join[
                 "TopCurveColor"-> StandardBlue,
                 "BottomCurveColor"->Orange,
                 "BreakPointColor"->Red,
+                "BreakPoint" -> Automatic,
                 PlotTheme -> "Production",
                 PointSize->0.018,
                 "Subtitle"->Style["Weibull Reliability Probability Plot", 15,Bold],
@@ -146,13 +158,22 @@ WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] :=
 
 WeibullReliabilityPlot::naxlbl = "Cannot process the value given to AxesLabel.";
 WeibullReliabilityPlot::nthe = "The value of the option PlotTheme is expected to be one of \"Production\", \"Failure\", or Automatic.";
+WeibullReliabilityPlot::nbp = "The value of the option \"BreakPoint\" is expected to be a positive integer or one of Top, First, Last, or Automatic.";
+WeibullReliabilityPlot::nbpi = "The integer value of the option \"BreakPoint\" is larger than the number of break points. Using the last break point.";
 
 WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
-    {theme, aModel, times, coords, x, y, a, beta, eta,
+    {breakPointSpec, theme, aModel, times, coords, x, y, a, beta, eta,
      xmin, xmax, ymin, ymax,
      pTicks, tTicks, pTrans, fittedCurveColor, grid, axes, axesLabels, labels, fitLine, xMargin,
      aBreaks, break, break2D, topLine, bottomLine
     },
+
+    breakPointSpec = OptionValue[WeibullReliabilityPlot, "BreakPoint"];
+    If[TrueQ[breakPointSpec === Automatic], breakPointSpec = Top];
+    If[!(MemberQ[{Top, First, Last}, breakPointSpec] || IntegerQ[breakPointSpec] && 0 < breakPointSpec),
+        Message[WeibullReliabilityPlot::nbp];
+        Return[$Failed]
+    ];
 
     theme = OptionValue[WeibullReliabilityPlot, PlotTheme];
     If[TrueQ[theme === Automatic], theme = "Production"];
@@ -190,7 +211,7 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
 
     (*Grid lines*)
     grid={
-        Directive[LightDarkSwitched[GrayLevel[.88],GrayLevel[.72]], Thin],
+        Directive[LightDarkSwitched[GrayLevel[.62],GrayLevel[.62]], Thin],
         Table[Line[{{xmin, pTrans[p]}, {xmax, pTrans[p]}}], {p, pTicks}],
         Table[Line[{{Log[t], ymin}, {Log[t], ymax}}], {t, tTicks}]
     };
@@ -247,23 +268,42 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
         With this sorting the code below takes the max Chow statistic point, 
         but we, most likely, want to plot the last structural break.
     *)
-    aBreaks = KeySortBy[aModel["Breaks"], -#[[2]] &];
-    (*aBreaks = KeySortBy[aModel["Breaks"], #[[1]] &];*)
-    break = Keys[aBreaks][[1, 1]];
+    
+    aBreaks = 
+        If[TrueQ[breakPointSpec === Top],
+            KeySortBy[aModel["Breaks"], -#[[2]] &],
+            (*ELSE*)
+            KeySortBy[aModel["Breaks"], #[[1]] &]
+        ];
+
+    {break, bpIndex} = 
+        Which[
+            TrueQ[breakPointSpec===Top] || TrueQ[breakPointSpec===First],
+            {Keys[aBreaks][[1, 1]], 1},
+
+            TrueQ[breakPointSpec===Last],
+            {Keys[aBreaks][[-1, 1]], Length[aBreaks]},
+
+            IntegerQ[breakPointSpec] && 1 <= breakPointSpec <= Length[aBreaks],
+            {Keys[aBreaks][[breakPointSpec, 1]], breakPointSpec},
+
+            True,
+            {Keys[aBreaks][[-1, 1]], Length[aBreaks]}
+        ];
   
     topLine = {Directive[OptionValue[WeibullReliabilityPlot,"TopCurveColor"], Thick],
         Line[{
-            {xmin, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmin}, 
-            {xmax, aBreaks[[1]]["Top"]["a"] + aBreaks[[1]]["Top"]["beta"] * xmax}
+            {xmin, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmin}, 
+            {xmax, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmax}
         }]};
 
     bottomLine = {Directive[OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], Thick],
         Line[{
-            {xmin,  aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * xmin},
-            {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break}
+            {xmin,  aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * xmin},
+            {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}
         }]};    
 
-    break2D = {break, aBreaks[[1]]["Bottom"]["a"] + aBreaks[[1]]["Bottom"]["beta"] * break};
+    break2D = {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break};
 
     Graphics[{
         (*Grid and axes*)
@@ -284,15 +324,15 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
             "\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 42}, {(xmin + xmax) / 2, ymax}]],
         Text[Style[Row[{
             "    Top:", Spacer[10], 
-            "\[Beta] = ", NumberForm[aBreaks[[1]]["Top"]["beta"], {5, 3}], Spacer[10], 
-            "\[Eta] = ", NumberForm[aBreaks[[1]]["Top"]["eta"], {8, 2}]}], 11], Offset[{0, 28}, {(xmin + xmax) / 2, ymax}]],
+            "\[Beta] = ", NumberForm[aBreaks[[bpIndex]]["Top"]["beta"], {5, 3}], Spacer[10], 
+            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Top"]["eta"], {8, 2}]}], 11], Offset[{0, 28}, {(xmin + xmax) / 2, ymax}]],
         Text[Style[Row[{
             "Bottom:", Spacer[10], 
-            "\[Beta] = ", NumberForm[aBreaks[[1]]["Bottom"]["beta"], {5, 3}], Spacer[10], 
-            "\[Eta] = ", NumberForm[aBreaks[[1]]["Bottom"]["eta"], {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],            
+            "\[Beta] = ", NumberForm[aBreaks[[bpIndex]]["Bottom"]["beta"], {5, 3}], Spacer[10], 
+            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Bottom"]["eta"], {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],            
         Dashing[{}],
-        Tooltip[topLine, aBreaks[[1]]["Top"]], 
-        Tooltip[bottomLine, aBreaks[[1]]["Bottom"]],
+        Tooltip[topLine, aBreaks[[bpIndex]]["Top"]], 
+        Tooltip[bottomLine, aBreaks[[bpIndex]]["Bottom"]],
         {
             OptionValue[WeibullReliabilityPlot,"BreakPointColor"], 
             PointSize[0.02], Tooltip[Point[break2D], break2D]
