@@ -23,17 +23,18 @@ WeibullFit[coords:{{_?NumericQ, _?NumericQ}..}] :=
 ClearAll[WeibullReliabilityModel];
 
 WeibullReliabilityModel::nargs = "The first argument is expected to be a list of three or more positive numbers.";
+WeibullReliabilityModel::nmrk = "The value of the option \"MedianRankMethod\" is expected to be one of \"Bernard\" of BetaDistribution.";
 
 Options[WeibullReliabilityModel] = 
     Join[ 
-        {"Breaks" -> True, "Knots" -> 10},
+        {"Breaks" -> True, "Knots" -> 10, "MedianRankMethod" -> "Bernard"},
         Options[QRMonQuantileRegression],
         DeleteCases[Options[QRMonFindLocalExtrema], "NumberOfProximityPoints" -> _],
         {"NumberOfProximityPoints" -> Automatic}
     ];
 
 WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
-    {times, n, probabilities, coords, a, beta, eta, breaks, opts2, nProxPoints},
+    {times, n, probabilities, coords, a, beta, eta, breaks, medianRankMethod, nProxPoints, opts2},
 
     (*Sort failure times*)
     times = Sort[N[data]];
@@ -43,8 +44,18 @@ WeibullReliabilityModel[data_List, opts: OptionsPattern[]] := Module[
         Return[$Failed]
     ];
 
-    (*Bernard's median-rank approximation*)
-    probabilities=Table[(i-0.3)/(n+0.4),{i,n}];
+    (*Median-rank approximation*)
+    medianRankMethod = OptionValue[WeibullReliabilityModel, "MedianRankMethod"];
+    If[!MemberQ[{"Bernard", BetaDistribution}, medianRankMethod],
+        Message[WeibullReliabilityModel::nmrk];
+        Return[$Failed]
+    ];
+    probabilities = 
+        If[TrueQ[medianRankMethod == "Bernard"],
+            Table[(i-0.3)/(n+0.4),{i,n}],
+            (*ELSE*)
+            N@Table[Quantile[BetaDistribution[j, n - j + 1], 0.5], {j, 1, n}]
+        ];
 
     (*Weibull coordinate transformation*)
     pTrans[p_]:=Log[-Log[1-p]];
@@ -303,7 +314,12 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
             {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}
         }]};    
 
-    break2D = {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break};
+    (* 
+        I am not sure is the 2D break point using the fitted model of interest. 
+        For now just giving the nearest point in the data.
+    *)
+    (* break2D = {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}; *)
+    break2D = coords[[ First @ Nearest[coords[[All, 1]] -> "Index", break] ]];
 
     Graphics[{
         (*Grid and axes*)
