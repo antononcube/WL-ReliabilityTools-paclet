@@ -170,7 +170,7 @@ WeibullReliabilityPlot[data_List, opts:OptionsPattern[]] :=
 
 WeibullReliabilityPlot::naxlbl = "Cannot process the value given to AxesLabel.";
 WeibullReliabilityPlot::nthe = "The value of the option PlotTheme is expected to be one of \"Production\", \"Failure\", or Automatic.";
-WeibullReliabilityPlot::nbp = "The value of the option \"BreakPoint\" is expected to be a positive integer or one of Top, First, Last, or Automatic.";
+WeibullReliabilityPlot::nbp = "The value of the option \"BreakPoint\" is expected to be a positive integer or one of Max, First, Last, or Automatic.";
 WeibullReliabilityPlot::nbpi = "The integer value of the option \"BreakPoint\" is larger than the number of break points. Using the last break point.";
 
 WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
@@ -182,7 +182,7 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
 
     breakPointSpec = OptionValue[WeibullReliabilityPlot, "BreakPoint"];
     If[TrueQ[breakPointSpec === Automatic], breakPointSpec = Top];
-    If[!(MemberQ[{Top, First, Last}, breakPointSpec] || IntegerQ[breakPointSpec] && 0 < breakPointSpec),
+    If[!(MemberQ[{Top, Max, First, Last}, breakPointSpec] || IntegerQ[breakPointSpec] && 0 < breakPointSpec),
         Message[WeibullReliabilityPlot::nbp];
         Return[$Failed]
     ];
@@ -282,7 +282,7 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
     *)
     
     aBreaks = 
-        If[TrueQ[breakPointSpec === Top],
+        If[TrueQ[breakPointSpec === Top] || TrueQ[breakPointSpec === Max],
             KeySortBy[aModel["Breaks"], -#[[2]] &],
             (*ELSE*)
             KeySortBy[aModel["Breaks"], #[[1]] &]
