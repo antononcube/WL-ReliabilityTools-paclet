@@ -387,18 +387,24 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
         (*Characteristic-life reference*)
         Directive[LightDarkSwitched[GrayLevel[.4],GrayLevel[.6]], Dashed], Line[{{Log[eta], ymin}, {Log[eta], 0}}], labels,
         Text[OptionValue[WeibullReliabilityPlot,"Subtitle"], Offset[{0, 60}, {(xmin + xmax) / 2, ymax}]],
-        Text[Style[Row[{
+        If[TrueQ[fittedCurveColor === None], {},
+            Text[Style[Row[{
             "Overall:", Spacer[10], 
             "\[Beta] = ", NumberForm[beta, {5, 3}], Spacer[10], 
-            "\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 42}, {(xmin + xmax) / 2, ymax}]],
-        Text[Style[Row[{
+            "\[Eta] = ", NumberForm[eta, {8, 2}]}], 11], Offset[{0, 42}, {(xmin + xmax) / 2, ymax}]]
+        ],
+        If[TrueQ[topCurveColor === None], {},
+            Text[Style[Row[{
             "    Top:", Spacer[10], 
             "\[Beta] = ", NumberForm[aBreaks[[bpIndex]]["Top"]["beta"], {5, 3}], Spacer[10], 
-            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Top"]["eta"], {8, 2}]}], 11], Offset[{0, 28}, {(xmin + xmax) / 2, ymax}]],
-        Text[Style[Row[{
+            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Top"]["eta"], {8, 2}]}], 11], Offset[{0, 28}, {(xmin + xmax) / 2, ymax}]]
+        ],
+        If[TrueQ[bottomCurveColor === None], {},
+            Text[Style[Row[{
             "Bottom:", Spacer[10], 
             "\[Beta] = ", NumberForm[aBreaks[[bpIndex]]["Bottom"]["beta"], {5, 3}], Spacer[10], 
-            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Bottom"]["eta"], {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]],            
+            "\[Eta] = ", NumberForm[aBreaks[[bpIndex]]["Bottom"]["eta"], {8, 2}]}], 11], Offset[{0, 14}, {(xmin + xmax) / 2, ymax}]]
+        ],
         Dashing[{}],
         Tooltip[topLine, aBreaks[[bpIndex]]["Top"]], 
         Tooltip[bottomLine, aBreaks[[bpIndex]]["Bottom"]],
