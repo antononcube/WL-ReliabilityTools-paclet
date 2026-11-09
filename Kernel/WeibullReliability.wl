@@ -175,7 +175,7 @@ WeibullReliabilityPlot::nbpi = "The integer value of the option \"BreakPoint\" i
 
 WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
     {breakPointSpec, theme, aModel, times, coords, x, y, a, beta, eta,
-     xmin, xmax, ymin, ymax, xminTop, xmaxTop, X,
+     xmin, xmax, ymin, ymax, xminTop, xmaxTop, xminBottom, X,
      pTicks, tTicks, pTrans, fittedCurveColor, grid, axes, axesLabels, labels, fitLine, xMargin,
      aBreaks, break, break2D, topLine, bottomLine
     },
@@ -320,11 +320,21 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
         ]
      };
 
+    xminBottom = X /. Solve[aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * X == ymin, X][[1]];
+
     bottomLine = {Directive[OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], Thick],
-        Line[{
-            {xmin,  aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * xmin},
-            {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}
-        }]};    
+        If[ xmin > xminBottom,
+            Line[{
+                {xmin,  aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * xmin},
+                {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}
+            }],
+            (*ELSE*)
+            Line[{
+                {xminBottom, ymin},
+                {break, aBreaks[[bpIndex]]["Bottom"]["a"] + aBreaks[[bpIndex]]["Bottom"]["beta"] * break}
+            }]
+        ]
+    };
 
     (* 
         I am not sure is the 2D break point using the fitted model of interest. 
