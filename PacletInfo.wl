@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Anton Antonov",
     "License" -> "MIT",
     "PublisherID" -> "AntonAntonov",
-    "Version" -> "1.0.4",
+    "Version" -> "1.0.5",
     "WolframVersion" -> "13+",
     "PrimaryContext" -> "AntonAntonov`ReliabilityTools`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
