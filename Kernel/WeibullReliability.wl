@@ -175,7 +175,7 @@ WeibullReliabilityPlot::nbpi = "The integer value of the option \"BreakPoint\" i
 
 WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
     {breakPointSpec, theme, aModel, times, coords, x, y, a, beta, eta,
-     xmin, xmax, ymin, ymax,
+     xmin, xmax, ymin, ymax, xminTop, xmaxTop, X,
      pTicks, tTicks, pTrans, fittedCurveColor, grid, axes, axesLabels, labels, fitLine, xMargin,
      aBreaks, break, break2D, topLine, bottomLine
     },
@@ -302,12 +302,23 @@ WeibullReliabilityPlot[rmObj_ReliabilityModel, opts:OptionsPattern[]] := Module[
             True,
             {Keys[aBreaks][[-1, 1]], Length[aBreaks]}
         ];
-  
+
+    xminTop = X /. Solve[aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * X == ymin, X][[1]];
+    xmaxTop = X /. Solve[aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * X == ymax, X][[1]];
+
     topLine = {Directive[OptionValue[WeibullReliabilityPlot,"TopCurveColor"], Thick],
-        Line[{
-            {xmin, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmin}, 
-            {xmax, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmax}
-        }]};
+        If[ xmin > xminTop,
+            Line[{
+                {xmin, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmin},
+                {xmax, aBreaks[[bpIndex]]["Top"]["a"] + aBreaks[[bpIndex]]["Top"]["beta"] * xmax}
+            }],
+            (*ELSE*)
+            Line[{
+                {xminTop, ymin},
+                {xmaxTop, ymax}
+            }]
+        ]
+     };
 
     bottomLine = {Directive[OptionValue[WeibullReliabilityPlot,"BottomCurveColor"], Thick],
         Line[{
